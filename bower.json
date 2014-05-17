@@ -1,0 +1,11 @@
+{
+  "name": "fragment",
+  "private": true,
+  "dependencies": {
+    "modernizr": "~2.6.2",
+    "lodash": null,
+    "hammerjs": null,
+    "jquery": "~1.11.0"
+  },
+  "devDependencies": {}
+}
