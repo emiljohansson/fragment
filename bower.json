@@ -2,6 +2,10 @@
   "name": "fragment",
   "private": true,
   "dependencies": {
+    "angular": null,
+    "angular-scenario": null,
+    "angular-route": null,
+    "angular-mocks": null,
     "modernizr": "~2.6.2",
     "lodash": null,
     "hammerjs": null,
