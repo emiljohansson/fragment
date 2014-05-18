@@ -11,6 +11,7 @@ module.exports = function (grunt) {
 
     // Load grunt tasks automatically
     require('load-grunt-tasks')(grunt);
+    grunt.loadNpmTasks('grunt-mocha-test');
 
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
@@ -41,7 +42,7 @@ module.exports = function (grunt) {
                 }
             },
             jstest: {
-                files: ['test/spec/{,*/}*.js'],
+                files: ['test/spec/**/*.js'],
                 tasks: ['test:watch']
             },
             gruntfile: {
@@ -85,7 +86,8 @@ module.exports = function (grunt) {
             },
             test: {
                 options: {
-                    open: false,
+                    hostname: 'localhost',
+                    open: true,
                     port: 9001,
                     middleware: function(connect) {
                         return [
@@ -95,7 +97,8 @@ module.exports = function (grunt) {
                             connect.static(config.app)
                         ];
                     }
-                }
+                },
+                src: ['test/**/*.js']
             },
             dist: {
                 options: {
@@ -139,8 +142,18 @@ module.exports = function (grunt) {
             all: {
                 options: {
                     run: true,
-                    urls: ['http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html']
+                    //urls: ['http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html']
+                    url: ['http://localhost/com/github/fragment/test/']
                 }
+            }
+        },
+
+        mochaTest: {
+            test: {
+                options: {
+                    reporter: 'spec'
+                },
+                src: ['app/scipts/**/*.js', 'test/**/*.js']
             }
         },
 
@@ -385,4 +398,6 @@ module.exports = function (grunt) {
         'test',
         'build'
     ]);
+
+    grunt.registerTask('mtest', 'mochaTest');
 };

@@ -5,17 +5,31 @@
  * @author Emil Johansson <emiljohansson.se@gmail.com>
  */
 define(['./element'], function(Element) {
-	'use strict';
+    'use strict';
 
-	/**
-	 * Constructor method.
-	 */
-	function Root() {
-		Element.apply(this);
-		document.body.appendChild(this.element);
-		this.element.setAttribute('class', 'hero-unit');
-	}
-	Root.prototype = Object.create(Element.prototype);
+    /**
+    * Constructor method.
+    */
+    function Root() {
+        Element.apply(this);
+        this._initElement();
+    }
+    Root.prototype = Object.create(Element.prototype);
 
-	return new Root;
+    /**
+     * Either appends a new div element to the body
+     * or uses the existing one.
+     *
+     * @return undefined
+     */
+    Root.prototype._initElement = function() {
+        if (document.getElementById('root') === null) {
+            document.body.appendChild(this._element);
+            this._element.setAttribute('id', 'root');
+            return;
+        }
+        this._element = document.getElementById('root');
+    }
+
+    return new Root();
 });

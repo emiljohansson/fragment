@@ -1,9 +1,10 @@
 /**
  * The base of the game.
  *
+ * https://github.com/emiljohansson/fragment
  * @author Emil Johansson <emiljohansson.se@gmail.com>
  */
-define([], function() {
+define(['../fragment'], function(fragment) {
 	'use strict';
 
 	/**
@@ -11,17 +12,31 @@ define([], function() {
 	 */
 	function Element() {
 		this.parent = null;
-		this.element = document.createElement('div');
+		this._element = document.createElement('div');
 	}
 
-  /**
-   * Returns the DOM element.
-   *
-   * @return DOMElement
-   */
-  Element.prototype.getElement = function() {
-    return this.element;
-  };
+    /**
+     * Returns the DOM element.
+     *
+     * @return DOMElement
+     */
+    Element.prototype.getElement = function() {
+        return this._element;
+    };
+
+    /**
+     * Adds a string to the element.
+     *
+     * @param string htmlOrString
+     * @return undefined
+     */
+    Element.prototype.html = function(htmlOrString) {
+        if (fragment.isString(htmlOrString) === true) {
+            this._element.innerHTML = htmlOrString;
+            return;
+        }
+        //this._element.appendChild(child);
+    };
 
 	/**
 	 * Appends a child.
@@ -30,7 +45,7 @@ define([], function() {
 	 * @return undefined
 	 */
 	Element.prototype.add = function(child) {
-		this.element.appendChild(child);
+		this._element.appendChild(child);
 	};
 
 	/**
@@ -40,7 +55,7 @@ define([], function() {
 	 * @return undefined
 	 */
 	Element.prototype.remove = function(child) {
-		this.element.removeChild(child);
+		this._element.removeChild(child);
 	};
 
 	/**
@@ -52,7 +67,7 @@ define([], function() {
 	Element.prototype.appendTo = function(element) {
 		this.removeFromParent();
 		this.parent = element;
-		this.parent.add(this.element);
+		this.parent.add(this._element);
 	};
 
 	/**
@@ -64,7 +79,7 @@ define([], function() {
 		if (this.parent === null) {
 			return;
 		}
-		this.parent.remove(this.element);
+		this.parent.remove(this._element);
 	};
 
 	return Element;
