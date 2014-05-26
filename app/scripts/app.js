@@ -15,6 +15,11 @@ define([
         this.game = null;
     }
 
+    /**
+     * The document is ready.
+     *
+     * @return undefined
+     */
     Applicaiton.prototype.ready = function() {
         this.game = new MyGame();
     };

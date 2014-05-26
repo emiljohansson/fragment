@@ -6,9 +6,8 @@
  */
 define([
     'fragment/dom/Root',
-    './states/LoadingState',
-    './states/IntroState'
-], function(root, LoadingState, IntroState) {
+    './states/StateFacade'
+], function(root, stateFacade) {
     'use strict';
 
     /**
@@ -16,8 +15,7 @@ define([
      */
     function MyGame() {
         this._state = null;
-        this.setState(LoadingState);
-        this.setState(IntroState);
+        this.setState(stateFacade.createState('QuestionState'));
     }
 
     /**
@@ -31,7 +29,8 @@ define([
         if (this._state !== null) {
             this._state.dispose();
         }
-        this._state = new stateClass();
+        this._state = stateClass;
+        this._state.myGame = this; //temp
         this._state.init();
         this._state.appendTo(root);
     };

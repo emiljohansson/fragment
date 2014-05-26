@@ -21,3 +21,12 @@ body {
 .fragment-container {
     background-color: #eee;
 }
+
+.fragment-progress {
+    height: 10px;
+}
+
+.fragment-progress .fragment-progress-bar {
+    height: 100%;
+    background: green;
+}

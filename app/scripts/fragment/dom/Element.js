@@ -4,38 +4,127 @@
  * https://github.com/emiljohansson/fragment
  * @author Emil Johansson <emiljohansson.se@gmail.com>
  */
-define(['../fragment'], function(fragment) {
+define(['./EventDispatcher', '../event/Event', '../fragment'], function(EventDispatcher, Event, fragment) {
 	'use strict';
 
 	/**
 	 * Constructor method.
 	 */
 	function Element() {
+		EventDispatcher.apply(this);
+
+		/**
+		 * Element object.
+		 * @var Element
+		 */
 		this.parent = null;
-		this._element = document.createElement('div');
+
+		/**
+		 * Dom element.
+		 * @var DOMElement
+		 */
+		this._element = document.createElement(this._type);
 	}
+	Element.prototype = Object.create(EventDispatcher.prototype);
+
+	/**
+	 * The element type, example div or input.
+	 * @var string
+	 */
+	Element.prototype._type = 'div';
+
+	/**
+	 * The element type, example div or input.
+	 * @var string
+	 */
+	Element.prototype._mouseEvents = ['click'];
+
+	/**
+	 * @ineheritDoc
+	 */
+	Element.prototype._inEventList = function(type) {
+		var i = this._mouseEvents.length;
+		while (i--) {
+			if (type === this._mouseEvents[i]) {
+				return true;
+			}
+		}
+		return false;
+	};
+
+	/**
+	* Initializes the state.
+	*
+	* @return undefined
+	*/
+	Element.prototype.dispose = function() {
+		this.removeFromParent();
+	};
+
+	/**
+	 * @ineheritDoc
+	 */
+	Element.prototype.addEventListener = function(type, listener, useCapture) {
+		if (this._inEventList(type) === false) {
+			return EventDispatcher.prototype.addEventListener.call(type, listener, useCapture);
+		}
+		Event.addEventListener(this._element, type, listener);
+		return this;
+	};
+
+	/**
+	 * @ineheritDoc
+	 */
+	EventDispatcher.prototype.removeEventListener = function(type, listener, useCapture) {
+		if (this._inEventList(type) === false) {
+			return EventDispatcher.prototype.addEventListener.call(type, listener, useCapture);
+		}
+		Event.removeEventListener(this._element, type, listener);
+		return this;
+	};
+
+	/**
+	 * Returns the DOM element.
+	 *
+	 * @return DOMElement
+	 */
+	Element.prototype.getElement = function() {
+		return this._element;
+	};
+
+	/**
+	 * Adds a string to the element.
+	 *
+	 * @param string htmlOrString
+	 * @return undefined
+	 */
+	Element.prototype.html = function(htmlOrString) {
+		if (fragment.isString(htmlOrString) === true || typeof htmlOrString === 'number') {
+			this._element.innerHTML = htmlOrString;
+			return;
+		}
+		//this._element.appendChild(child);
+	};
 
     /**
-     * Returns the DOM element.
+     * Adds a inline style to the element.
      *
-     * @return DOMElement
+     * @param string propertyName
+     * @param string value
+     * @return undefined
      */
-    Element.prototype.getElement = function() {
-        return this._element;
+    Element.prototype.css = function(propertyName, value) {
+        this._element.style[propertyName] = value;
     };
 
     /**
-     * Adds a string to the element.
+     * Adds a class name to the element.
      *
-     * @param string htmlOrString
+     * @param string className
      * @return undefined
      */
-    Element.prototype.html = function(htmlOrString) {
-        if (fragment.isString(htmlOrString) === true) {
-            this._element.innerHTML = htmlOrString;
-            return;
-        }
-        //this._element.appendChild(child);
+    Element.prototype.addStyleName = function(className) {
+        this._element.className += className;
     };
 
 	/**

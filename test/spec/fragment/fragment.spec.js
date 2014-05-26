@@ -10,8 +10,7 @@ define(function(require) {
 			assert.equal(fragment.isString(), false);
 			assert.equal(fragment.isString(null), false);
 			assert.equal(fragment.isString('null'), true);
-			assert.equal(fragment.isString("null"), true);
-			assert.equal(fragment.isString(""), true);
+			assert.equal(fragment.isString(''), true);
 		});
 	});
 });

@@ -31,7 +31,7 @@ define([
 	* @return undefined
 	*/
 	DisplayState.prototype.dispose = function() {
-		console.log('parent:', this.parent);
+		Element.prototype.dispose.call(this);
 	};
 
 	return DisplayState;
