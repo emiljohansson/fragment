@@ -75,6 +75,7 @@ define([
 	 */
 	Countdown.prototype.start = function() {
 		this._intervalId = setInterval(this._tick.bind(this), 1000);
+        this._tick();
 		console.log("started");
 	};
 

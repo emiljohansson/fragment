@@ -20,8 +20,8 @@ define(['./Plugin'], function(Plugin) {
 	 * @param Element element
 	 * @return undefined
 	 */
-	DragDrop.prototype.initElement = function(element) {
-		Plugin.prototype.initElement.call(this, element);
+	DragDrop.prototype._initElement = function(element) {
+		Plugin.prototype._initElement.call(this, element);
 		//$(element.getElement()).draggable();
 	};
 

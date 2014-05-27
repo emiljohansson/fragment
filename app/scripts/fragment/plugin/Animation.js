@@ -20,9 +20,19 @@ define(['./Plugin', 'jquery'], function(Plugin, jquery) {
 	 * @param Element element
 	 * @return undefined
 	 */
-	Animation.prototype.initElement = function(element) {
-		Plugin.prototype.initElement.call(this, element);
-		//$(element.getElement()).draggable();
+	Animation.prototype._initElement = function(element) {
+		Plugin.prototype._initElement.call(this, element);
+        element.animation = {
+            expand: function(width, height) {
+                jquery(element.getElement()).animate({
+                    width: width,
+                    height: height
+                }, 1000, "linear");
+            },
+            stop: function() {
+                jquery(element.getElement()).stop();
+            }
+        };
 	};
 
 	/**

@@ -10,8 +10,8 @@ define([
 	'fragment/dom/Container',
 	'fragment/dom/Button',
 	'fragment/util/Countdown',
-	'jquery'
-], function(DisplayState, Element, Container, Button, Countdown, jquery) {
+    'fragment/plugin/Animation'
+], function(DisplayState, Element, Container, Button, Countdown, Animation) {
 	'use strict';
 
 	/**
@@ -89,7 +89,7 @@ define([
 		}
 		console.log('click answer', answer);
 		this._countdown.stop();
-		jquery(this._fill.getElement()).stop();
+		this._fill.animation.stop();
 	};
 
 	/**
@@ -103,23 +103,16 @@ define([
 		meter.addStyleName('fragment-progress');
 		meter.appendTo(this._container);
 		this._fill = new Element();
+        Animation.add(this._fill);
 		this._fill.addStyleName('fragment-progress-bar');
 		this._fill.appendTo(meter);
 		this._fill.css("width", "100%");
 		var initCount = 2;
 		var percent = 100;
-		var tt;
 		this._countdown = new Countdown(initCount);
 		this._countdown.onTick = function(count) {
-			tt = percent;
-			console.log(count / initCount);
-			console.log(count, initCount);
-			percent = count <= 0 ? 0 : count / initCount;
-			percent *= 100;
-			//this._fill.css("width", percent+"%");
-			jquery(self._fill.getElement()).animate({
-				width: percent+"%"
-			}, 1000, "linear");
+			percent = count <= 0 ? 0 : (count / initCount) * 100;
+			self._fill.animation.expand(percent+"%");
 		};
 		this._countdown.onComplete = this._onTimerEnds.bind(this);
 		this._countdown.start();
@@ -141,6 +134,7 @@ define([
 	 */
 	QuestionState.prototype._gameOver = function() {
 		this._gameIsActive = false;
+        console.log("game over");
 	};
 
 	return QuestionState;

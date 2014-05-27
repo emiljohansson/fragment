@@ -21,7 +21,7 @@ define([], function() {
 	 */
 	Plugin.prototype.add = function(element) {
 		this._list.push(element);
-		this.initElement(element);
+		this._initElement(element);
 	};
 
 	/**
@@ -30,7 +30,7 @@ define([], function() {
 	 * @param Element element
 	 * @return undefined
 	 */
-	Plugin.prototype.initElement = function(element) {};
+	Plugin.prototype._initElement = function(element) {};
 
 	return Plugin;
 });
