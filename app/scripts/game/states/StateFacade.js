@@ -1,8 +1,8 @@
 /**
-* ...
-*
-* @author Emil Johansson <emiljohansson.se@gmail.com>
-*/
+ * ...
+ *
+ * @author Emil Johansson <emiljohansson.se@gmail.com>
+ */
 define([
 	'./LoadingState',
 	'./IntroState',

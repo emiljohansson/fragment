@@ -101,9 +101,10 @@ define(['./EventDispatcher', '../event/Event', '../fragment'], function(EventDis
 	Element.prototype.html = function(htmlOrString) {
 		if (fragment.isString(htmlOrString) === true || typeof htmlOrString === 'number') {
 			this._element.innerHTML = htmlOrString;
-			return;
+			return this._element.innerHTML;
 		}
 		//this._element.appendChild(child);
+		return this._element.innerHTML;
 	};
 
     /**

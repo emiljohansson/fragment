@@ -9,8 +9,9 @@ define([
 	'fragment/dom/Element',
 	'fragment/dom/Container',
 	'fragment/dom/Button',
-    'fragment/util/Countdown'
-], function(DisplayState, Element, Container, Button, Countdown) {
+	'fragment/util/Countdown',
+	'jquery'
+], function(DisplayState, Element, Container, Button, Countdown, jquery) {
 	'use strict';
 
 	/**
@@ -19,44 +20,18 @@ define([
 	function QuestionState(buttonValue) {
 		console.log('question', buttonValue);
 		DisplayState.apply(this);
-		this._container = new Container();
-		this._container.appendTo(this);
-		var label = new Element();
-		label.html('Current question');
-		label.appendTo(this._container);
 
-		var answers = ['Aaa', 'Bbb', 'Ccc'];
-		var fn = function() {
-			console.log('click answer');
-			this.removeEventListener('click', fn);
-		};
-		while (answers.length) {
-			var btn = new Button(answers.shift());
-			btn.addEventListener('click', fn);
-			btn.appendTo(this._container);
-		}
+		/**
+		 * A countdown.
+		 * @var Countdown
+		 */
+		this._countdown = null;
 
-        var meter = new Element();
-        meter.addStyleName('fragment-progress');
-        meter.appendTo(this._container);
-        var fill = new Element();
-        fill.addStyleName('fragment-progress-bar');
-        fill.appendTo(meter);
-        fill.css("width", "100%");
-        var initCount = 5;
-        var percent = 100;
-        var countdown = new Countdown(initCount);
-        countdown.onTick = function(count) {
-            console.log(count / initCount);
-            console.log(count, initCount);
-            percent = count <= 0 ? 0 : count / initCount;
-            percent *= 100;
-            fill.css("width", percent+"%");
-        };
-        countdown.onComplete = function() {
-            console.log("done");
-        };
-        countdown.start();
+		/**
+		 * The game is on.
+		 * @var boolean
+		 */
+		this._gameIsActive = true;
 	}
 	QuestionState.prototype = Object.create(DisplayState.prototype);
 
@@ -66,7 +41,106 @@ define([
 	 * @return undefined
 	 */
 	QuestionState.prototype.init = function() {
-		//
+		this._container = new Container();
+		this._container.appendTo(this);
+		var label = new Element();
+		label.html('Current question');
+		label.appendTo(this._container);
+
+		this._initButtons();
+		this._initCountdown();
+	};
+
+	/**
+	 * ...
+	 *
+	 * @return undefined
+	 */
+	QuestionState.prototype._initButtons = function() {
+		var self = this;
+		var answers = ['Aaa', 'Bbb', 'Ccc'];
+		var btnList = [];
+		var fn = function(event) {
+			rm();
+			self._answerSelected(this.innerHTML);
+		};
+		var rm = function() {
+			for (var i = 0; i < btnList.length; i++) {
+				btnList[i].getElement().removeEventListener('click', fn);
+			}
+		};
+		while (answers.length) {
+			var btn = new Button(answers.shift());
+			btn.addEventListener('click', fn);
+			btn.appendTo(this._container);
+			btnList.push(btn);
+		}
+	};
+
+	/**
+	 * ...
+	 *
+	 * @param string answer
+	 * @return undefined
+	 */
+	QuestionState.prototype._answerSelected = function(answer) {
+		if (this._gameIsActive === false) {
+			return;
+		}
+		console.log('click answer', answer);
+		this._countdown.stop();
+		jquery(this._fill.getElement()).stop();
+	};
+
+	/**
+	 * ...
+	 *
+	 * @return undefined
+	 */
+	QuestionState.prototype._initCountdown = function() {
+		var self = this;
+		var meter = new Element();
+		meter.addStyleName('fragment-progress');
+		meter.appendTo(this._container);
+		this._fill = new Element();
+		this._fill.addStyleName('fragment-progress-bar');
+		this._fill.appendTo(meter);
+		this._fill.css("width", "100%");
+		var initCount = 2;
+		var percent = 100;
+		var tt;
+		this._countdown = new Countdown(initCount);
+		this._countdown.onTick = function(count) {
+			tt = percent;
+			console.log(count / initCount);
+			console.log(count, initCount);
+			percent = count <= 0 ? 0 : count / initCount;
+			percent *= 100;
+			//this._fill.css("width", percent+"%");
+			jquery(self._fill.getElement()).animate({
+				width: percent+"%"
+			}, 1000, "linear");
+		};
+		this._countdown.onComplete = this._onTimerEnds.bind(this);
+		this._countdown.start();
+	};
+
+	/**
+	 * ...
+	 *
+	 * @return undefined
+	 */
+	QuestionState.prototype._onTimerEnds = function() {
+		this._gameOver();
+	};
+
+	/**
+	 * ...
+	 *
+	 * @return undefined
+	 */
+	QuestionState.prototype._gameOver = function() {
+		this._gameIsActive = false;
 	};
 
 	return QuestionState;

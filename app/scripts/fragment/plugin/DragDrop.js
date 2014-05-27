@@ -10,20 +10,20 @@ define(['./Plugin'], function(Plugin) {
 	 * Constructor method.
 	 */
 	function DragDrop() {
-    Plugin.apply(this);
+		Plugin.apply(this);
 	}
 	DragDrop.prototype = Object.create(Plugin.prototype);
 
-  /**
-   * Appends the plugin onto the element.
-   *
-   * @param Element element
-   * @return undefined
-   */
-  DragDrop.prototype.initElement = function(element) {
-    Plugin.prototype.initElement.call(this, element);
-    //$(element.getElement()).draggable();
-  };
+	/**
+	 * Appends the plugin onto the element.
+	 *
+	 * @param Element element
+	 * @return undefined
+	 */
+	DragDrop.prototype.initElement = function(element) {
+		Plugin.prototype.initElement.call(this, element);
+		//$(element.getElement()).draggable();
+	};
 
 	return new DragDrop();
 });

@@ -95,6 +95,7 @@ define([], function() {
 		}
 		if (elem.removeEventListener) {
 			elem.removeEventListener(type, listener, useCapture);
+		console.log(elem, type, listener)
 		}
 		else if (elem.detachEvent) {
 			elem.detachEvent('on'+type, listener);

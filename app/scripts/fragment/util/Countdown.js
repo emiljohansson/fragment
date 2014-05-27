@@ -34,13 +34,14 @@ define([
 	 * @return undefined
 	 */
 	Countdown.prototype._tick = function() {
-		console.log("tick", this._seconds);
-		if (fragment.isSet(this.onTick) === true) {
-			this.onTick(this.getCount());
-		}
 		this._seconds = this._seconds - 1;
+		console.log("tick", this._seconds);
 		if (this._seconds < 0) {
 			this.stop();
+			return;
+		}
+		if (fragment.isSet(this.onTick) === true) {
+			this.onTick(this.getCount());
 		}
 	};
 
