@@ -51,7 +51,7 @@ define([
 		if (buttonList !== null) {
 			for (i = 0; i < buttonList.length; i++) {
 				buttonList[i].appendTo(this._container);
-			};
+			}
 			return;
 		}
 		var self = this;
