@@ -9,8 +9,10 @@ define(['./EventDispatcher', '../event/Event', '../fragment'], function(EventDis
 
 	/**
 	 * Constructor method.
+	 *
+	 * @param string nodeName
 	 */
-	function Element() {
+	function Element(nodeName) {
 		EventDispatcher.apply(this);
 
 		/**
@@ -23,7 +25,7 @@ define(['./EventDispatcher', '../event/Event', '../fragment'], function(EventDis
 		 * Dom element.
 		 * @var DOMElement
 		 */
-		this._element = document.createElement(this._type);
+		this._element = document.createElement(nodeName || this._type);
 	}
 	Element.prototype = Object.create(EventDispatcher.prototype);
 
@@ -125,7 +127,7 @@ define(['./EventDispatcher', '../event/Event', '../fragment'], function(EventDis
      * @return undefined
      */
     Element.prototype.addStyleName = function(className) {
-        this._element.className += className;
+        this._element.className += " "+className;
     };
 
 	/**
