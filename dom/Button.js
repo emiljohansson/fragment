@@ -32,5 +32,18 @@ define(['./element'], function(Element) {
 		return this._element;
 	};
 
+	/**
+	 * Factory methods.
+	 */
+	Button.create = function(label) {
+		return new Button(label);
+	};
+
+	Button.createWithElement = function(elem) {
+		var btn = new Button();
+		btn.setElement(elem);
+		return btn;
+	};
+
 	return Button;
 });

@@ -95,6 +95,17 @@ define(['./EventDispatcher', '../event/Event', '../fragment'], function(EventDis
 	};
 
 	/**
+	* Replaces the current DOM element.
+	*
+	* @param DOMElement elem
+	* @return DOMElement
+	*/
+	Element.prototype.setElement = function(elem) {
+		this._element = elem;
+		return this._element;
+	};
+
+	/**
 	 * Adds a string to the element.
 	 *
 	 * @param string htmlOrString
@@ -103,7 +114,7 @@ define(['./EventDispatcher', '../event/Event', '../fragment'], function(EventDis
 	Element.prototype.html = function(htmlOrString) {
 		if (fragment.isString(htmlOrString) === true || typeof htmlOrString === 'number') {
 			this._element.innerHTML = htmlOrString;
-			return this._element.innerHTML;
+			//return this._element.innerHTML;
 		}
 		//this._element.appendChild(child);
 		return this._element.innerHTML;
