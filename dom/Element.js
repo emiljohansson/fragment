@@ -185,5 +185,18 @@ define(['./EventDispatcher', '../event/Event', '../fragment'], function(EventDis
 		this.parent.remove(this._element);
 	};
 
+	/**
+	* Factory methods.
+	*/
+	Element.create = function(nodeName) {
+		return new Element(nodeName);
+	};
+
+	Element.createWithElement = function(elem) {
+		var element = new Element();
+		element.setElement(elem);
+		return element;
+	};
+
 	return Element;
 });

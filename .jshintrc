@@ -11,7 +11,6 @@
     "latedef": true,
     "newcap": true,
     "noarg": true,
-    "quotmark": "single",
     "undef": true,
     "unused": true,
     "strict": true,
@@ -19,14 +18,14 @@
     "smarttabs": true,
     "jquery": true,
     "globals" : {
-      /* MOCHA */
       "describe"   : false,
       "it"         : false,
       "before"     : false,
       "beforeEach" : false,
       "after"      : false,
       "afterEach"  : false,
-      "define": true,
-      "assert": true
+      "define"     : true,
+      "assert"     : true,
+      "createjs"   : true
     }
 }

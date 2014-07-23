@@ -3,7 +3,7 @@
  *
  * @author Emil Johansson <emiljohansson.se@gmail.com>
  */
-define(['./Plugin', 'jquery'], function(Plugin, jquery) {
+define(['./Plugin', 'jquery'], function(Plugin, $) {
 	'use strict';
 
 	/**
@@ -24,13 +24,13 @@ define(['./Plugin', 'jquery'], function(Plugin, jquery) {
 		Plugin.prototype._initElement.call(this, element);
         element.animation = {
             expand: function(width, height) {
-                jquery(element.getElement()).animate({
+                $(element.getElement()).animate({
                     width: width,
                     height: height
                 }, 1000, "linear");
             },
             stop: function() {
-                jquery(element.getElement()).stop();
+                $(element.getElement()).stop();
             }
         };
 	};
@@ -41,7 +41,7 @@ define(['./Plugin', 'jquery'], function(Plugin, jquery) {
 	 * @param object properties
 	 * @return undefined
 	 */
-	Animation.prototype.append = function(properties) {
+	Animation.prototype.append = function(/*properties*/) {
 		//
 	};
 
