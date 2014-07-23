@@ -4,7 +4,19 @@
  * https://github.com/emiljohansson/fragment
  * @author Emil Johansson <emiljohansson.se@gmail.com>
  */
-define([], function() {
+require.config({
+	paths: {
+		'hammerjs': 'fragment/lib/hammerjs/hammer',
+		'soundjs': 'fragment/lib/SoundJS/lib/soundjs-0.5.2.min',
+		'preloadjs': 'fragment/lib/PreloadJS/lib/preloadjs-0.4.1.min'
+	},
+	shim: {},
+	priority: []
+});
+
+define([
+	'hammerjs', 'soundjs', 'preloadjs'
+], function() {
 	'use strict';
 
 	var fragment = {};
