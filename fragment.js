@@ -6,7 +6,6 @@
  */
 require.config({
 	paths: {
-		'hammerjs': 'fragment/lib/hammerjs/hammer',
 		'soundjs': 'fragment/lib/SoundJS/lib/soundjs-0.5.2.min',
 		'preloadjs': 'fragment/lib/PreloadJS/lib/preloadjs-0.4.1.min'
 	},
@@ -15,7 +14,7 @@ require.config({
 });
 
 define([
-	'hammerjs', 'soundjs', 'preloadjs'
+	'soundjs', 'preloadjs'
 ], function() {
 	'use strict';
 

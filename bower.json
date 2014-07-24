@@ -25,7 +25,6 @@
   ],
   "dependencies": {
     "PreloadJS": "*",
-    "SoundJS": "*",
-    "hammerjs": "~2.0.1"
+    "SoundJS": "*"
   }
 }
