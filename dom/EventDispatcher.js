@@ -37,7 +37,7 @@ define([], function() {
 	};
 
 	/**
-	 * Removes all events for the type. 
+	 * Removes all events for the type.
 	 *
 	 * @param string type
 	 * @param function listener
@@ -63,7 +63,7 @@ define([], function() {
 	};
 
 	/**
-	 * Triggers an event. 
+	 * Triggers an event.
 	 *
 	 * @param string type
 	 * @param Array | object args

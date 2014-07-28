@@ -70,7 +70,7 @@ define(['./EventDispatcher', '../event/Event', '../fragment'], function(EventDis
 		if (this._inEventList(type) === false) {
 			return EventDispatcher.prototype.addEventListener.call(type, listener, useCapture);
 		}
-		Event.addEventListener(this._element, type, listener);
+		Event.addEventListener(this._element, type, listener, useCapture);
 		return this;
 	};
 
@@ -106,6 +106,32 @@ define(['./EventDispatcher', '../event/Event', '../fragment'], function(EventDis
 	};
 
 	/**
+	* ...
+	*
+	* @param string selector
+	* @return DOMElement || null
+	*/
+	Element.prototype.find = function(selector) {
+		return this.getElement().querySelector(selector);
+	};
+
+	/**
+	* ...
+	*
+	* @param boolean visible
+	* @return undefined
+	*/
+	Element.prototype.setVisible = function(visible) {
+		if (visible === true) {
+			this.css('left', '');
+			this.css('position', '');
+			return;
+		}
+		this.css('left', '-9999px');
+		this.css('position', 'absolute');
+	};
+
+	/**
 	 * Adds a string to the element.
 	 *
 	 * @param string htmlOrString
@@ -114,9 +140,7 @@ define(['./EventDispatcher', '../event/Event', '../fragment'], function(EventDis
 	Element.prototype.html = function(htmlOrString) {
 		if (fragment.isString(htmlOrString) === true || typeof htmlOrString === 'number') {
 			this._element.innerHTML = htmlOrString;
-			//return this._element.innerHTML;
 		}
-		//this._element.appendChild(child);
 		return this._element.innerHTML;
 	};
 

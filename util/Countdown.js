@@ -29,13 +29,25 @@ define([
 	}
 
 	/**
+	* ...
+	*
+	* @return undefined
+	*/
+	Countdown.prototype.dispose = function() {
+		clearInterval(this._intervalId);
+		this._intervalId = null;
+		this._seconds = null;
+		this.onComplete = null;
+		this.onTick = null;
+	};
+
+	/**
 	 * Is called every second.
 	 *
 	 * @return undefined
 	 */
 	Countdown.prototype._tick = function() {
 		this._seconds = this._seconds - 1;
-		console.log("tick", this._seconds);
 		if (this._seconds < 0) {
 			this.stop();
 			return;
@@ -76,7 +88,6 @@ define([
 	Countdown.prototype.start = function() {
 		this._intervalId = setInterval(this._tick.bind(this), 1000);
         this._tick();
-		console.log("started");
 	};
 
 	/**
