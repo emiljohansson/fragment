@@ -40,5 +40,6 @@ define([
 		return typeof obj === 'string';
 	};
 
+	window.fragment = fragment;
 	return fragment;
 });

@@ -26,6 +26,7 @@
       "afterEach"  : false,
       "define"     : true,
       "assert"     : true,
-      "createjs"   : true
+      "createjs"   : true,
+      "fragment"   : true
     }
 }

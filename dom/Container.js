@@ -16,5 +16,6 @@ define(['./element'], function(Element) {
 	}
 	Container.prototype = Object.create(Element.prototype);
 
+	fragment.Container = Container;
 	return Container;
 });

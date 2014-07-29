@@ -222,5 +222,6 @@ define(['./EventDispatcher', '../event/Event', '../fragment'], function(EventDis
 		return element;
 	};
 
+	fragment.Element = Element;
 	return Element;
 });

@@ -34,5 +34,6 @@ define([
 		Element.prototype.dispose.call(this);
 	};
 
+	fragment.DisplayState = DisplayState;
 	return DisplayState;
 });
