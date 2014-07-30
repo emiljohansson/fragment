@@ -13,7 +13,7 @@
     "noarg": true,
     "undef": true,
     "unused": true,
-    "strict": true,
+    "strict": false,
     "trailing": true,
     "smarttabs": true,
     "jquery": true,
@@ -26,6 +26,7 @@
       "afterEach"  : false,
       "define"     : true,
       "assert"     : true,
-      "createjs"   : true
+      "createjs"   : true,
+      "fragment"   : true
     }
 }

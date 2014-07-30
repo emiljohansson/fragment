@@ -1,38 +1,26 @@
 /**
-* ...
-*
-* https://github.com/emiljohansson/fragment
-* @author Emil Johansson <emiljohansson.se@gmail.com>
+* Constructor method.
 */
-define([
-	'fragment/dom/Element'
-], function(Element) {
-	'use strict';
+function DisplayState() {
+	Element.apply(this);
+	this._element.setAttribute('class', 'fragment-displayState');
+}
+DisplayState.prototype = Object.create(Element.prototype);
 
-	/**
-	* Constructor method.
-	*/
-	function DisplayState() {
-		Element.apply(this);
-		this._element.setAttribute('class', 'fragment-displayState');
-	}
-	DisplayState.prototype = Object.create(Element.prototype);
+/**
+* Initializes the state.
+*
+* @return undefined
+*/
+DisplayState.prototype.init = function() {};
 
-	/**
-	* Initializes the state.
-	*
-	* @return undefined
-	*/
-	DisplayState.prototype.init = function() {};
+/**
+* Initializes the state.
+*
+* @return undefined
+*/
+DisplayState.prototype.dispose = function() {
+	Element.prototype.dispose.call(this);
+};
 
-	/**
-	* Initializes the state.
-	*
-	* @return undefined
-	*/
-	DisplayState.prototype.dispose = function() {
-		Element.prototype.dispose.call(this);
-	};
-
-	return DisplayState;
-});
+fragment.DisplayState = DisplayState;
