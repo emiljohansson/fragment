@@ -1,0 +1,2 @@
+window.fragment = fragment;
+})(window, document);

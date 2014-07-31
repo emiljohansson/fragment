@@ -1,35 +1,18 @@
+'use strict';
+
+var fragment = {};
+
 /**
- * ...
+ * Returns true if the passed object is not null nor undefined.
  *
- * https://github.com/emiljohansson/fragment
- * @author Emil Johansson <emiljohansson.se@gmail.com>
+ * @param mixed obj
+ * @return boolean
  */
-require.config({
-	paths: {
-		'soundjs': 'fragment/lib/SoundJS/lib/soundjs-0.5.2.min',
-		'preloadjs': 'fragment/lib/PreloadJS/lib/preloadjs-0.4.1.min'
-	},
-	shim: {},
-	priority: []
-});
+fragment.isSet = function(obj) {
+    return (typeof obj !== 'undefined' && obj !== null);
+};
 
-define([
-	'soundjs', 'preloadjs'
-], function() {
-	'use strict';
-
-	var fragment = {};
-
-    /**
-     * Returns true if the passed object is not null nor undefined.
-     *
-     * @param mixed obj
-     * @return boolean
-     */
-    fragment.isSet = function(obj) {
-        return (typeof obj !== 'undefined' && obj !== null);
-    };
-
+<<<<<<< HEAD
     /**
      * Returns if the type of the object is a string.
      *
@@ -43,3 +26,14 @@ define([
 	window.fragment = fragment;
 	return fragment;
 });
+=======
+/**
+ * Returns if the type of the object is a string.
+ *
+ * @param mixed obj
+ * @return boolean
+ */
+fragment.isString = function(obj) {
+	return typeof obj === 'string';
+};
+>>>>>>> origin/no-requirejs

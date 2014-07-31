@@ -1,68 +1,60 @@
 /**
- * The base of the game.
+ * Constructor method.
  *
- * https://github.com/emiljohansson/fragment
- * @author Emil Johansson <emiljohansson.se@gmail.com>
+ * @param string nodeName
  */
-define(['./EventDispatcher', '../event/Event', '../fragment'], function(EventDispatcher, Event, fragment) {
-	'use strict';
+function Element(nodeName) {
+	EventDispatcher.apply(this);
 
 	/**
-	 * Constructor method.
-	 *
-	 * @param string nodeName
+	 * Element object.
+	 * @var Element
 	 */
-	function Element(nodeName) {
-		EventDispatcher.apply(this);
-
-		/**
-		 * Element object.
-		 * @var Element
-		 */
-		this.parent = null;
-
-		/**
-		 * Dom element.
-		 * @var DOMElement
-		 */
-		this._element = document.createElement(nodeName || this._type);
-	}
-	Element.prototype = Object.create(EventDispatcher.prototype);
+	this.parent = null;
 
 	/**
-	 * The element type, example div or input.
-	 * @var string
+	 * Dom element.
+	 * @var DOMElement
 	 */
-	Element.prototype._type = 'div';
+	this._element = document.createElement(nodeName || this._type);
+}
+Element.prototype = Object.create(EventDispatcher.prototype);
 
-	/**
-	 * The element type, example div or input.
-	 * @var string
-	 */
-	Element.prototype._mouseEvents = ['click'];
+/**
+ * The element type, example div or input.
+ * @var string
+ */
+Element.prototype._type = 'div';
 
-	/**
-	 * @ineheritDoc
-	 */
-	Element.prototype._inEventList = function(type) {
-		var i = this._mouseEvents.length;
-		while (i--) {
-			if (type === this._mouseEvents[i]) {
-				return true;
-			}
+/**
+ * The element type, example div or input.
+ * @var string
+ */
+Element.prototype._mouseEvents = ['click'];
+
+/**
+ * @ineheritDoc
+ */
+Element.prototype._inEventList = function(type) {
+	var i = this._mouseEvents.length;
+	while (i--) {
+		if (type === this._mouseEvents[i]) {
+			return true;
 		}
-		return false;
-	};
+	}
+	return false;
+};
 
-	/**
-	* Initializes the state.
-	*
-	* @return undefined
-	*/
-	Element.prototype.dispose = function() {
-		this.removeFromParent();
-	};
+/**
+* Initializes the state.
+*
+* @return undefined
+*/
+Element.prototype.dispose = function() {
+	this.removeFromParent();
+};
 
+<<<<<<< HEAD
 	/**
 	 * @ineheritDoc
 	 */
@@ -73,38 +65,51 @@ define(['./EventDispatcher', '../event/Event', '../fragment'], function(EventDis
 		Event.addEventListener(this._element, type, listener, useCapture);
 		return this;
 	};
+=======
+/**
+ * @ineheritDoc
+ */
+Element.prototype.addEventListener = function(type, listener, useCapture) {
+	if (this._inEventList(type) === false) {
+		return EventDispatcher.prototype.addEventListener.call(type, listener, useCapture);
+	}
+	Event.addEventListener(this._element, type, listener, useCapture);
+	return this;
+};
+>>>>>>> origin/no-requirejs
 
-	/**
-	 * @ineheritDoc
-	 */
-	EventDispatcher.prototype.removeEventListener = function(type, listener, useCapture) {
-		if (this._inEventList(type) === false) {
-			return EventDispatcher.prototype.addEventListener.call(type, listener, useCapture);
-		}
-		Event.removeEventListener(this._element, type, listener);
-		return this;
-	};
+/**
+ * @ineheritDoc
+ */
+EventDispatcher.prototype.removeEventListener = function(type, listener, useCapture) {
+	if (this._inEventList(type) === false) {
+		return EventDispatcher.prototype.addEventListener.call(type, listener, useCapture);
+	}
+	Event.removeEventListener(this._element, type, listener);
+	return this;
+};
 
-	/**
-	 * Returns the DOM element.
-	 *
-	 * @return DOMElement
-	 */
-	Element.prototype.getElement = function() {
-		return this._element;
-	};
+/**
+ * Returns the DOM element.
+ *
+ * @return DOMElement
+ */
+Element.prototype.getElement = function() {
+	return this._element;
+};
 
-	/**
-	* Replaces the current DOM element.
-	*
-	* @param DOMElement elem
-	* @return DOMElement
-	*/
-	Element.prototype.setElement = function(elem) {
-		this._element = elem;
-		return this._element;
-	};
+/**
+* Replaces the current DOM element.
+*
+* @param DOMElement elem
+* @return DOMElement
+*/
+Element.prototype.setElement = function(elem) {
+	this._element = elem;
+	return this._element;
+};
 
+<<<<<<< HEAD
 	/**
 	* ...
 	*
@@ -164,51 +169,69 @@ define(['./EventDispatcher', '../event/Event', '../fragment'], function(EventDis
     Element.prototype.addStyleName = function(className) {
         this._element.className += " "+className;
     };
+=======
+/**
+* ...
+*
+* @param string selector
+* @return DOMElement || null
+*/
+Element.prototype.find = function(selector) {
+	return this.getElement().querySelector(selector);
+};
+>>>>>>> origin/no-requirejs
 
-	/**
-	 * Appends a child.
-	 *
-	 * @param Element child
-	 * @return undefined
-	 */
-	Element.prototype.add = function(child) {
-		this._element.appendChild(child);
-	};
+/**
+* ...
+*
+* @param boolean visible
+* @return undefined
+*/
+Element.prototype.setVisible = function(visible) {
+	if (visible === true) {
+		this.css('left', '');
+		this.css('position', '');
+		return;
+	}
+	this.css('left', '-9999px');
+	this.css('position', 'absolute');
+};
 
-	/**
-	 * Removes a child.
-	 *
-	 * @param Element child
-	 * @return undefined
-	 */
-	Element.prototype.remove = function(child) {
-		this._element.removeChild(child);
-	};
+/**
+ * Adds a string to the element.
+ *
+ * @param string htmlOrString
+ * @return undefined
+ */
+Element.prototype.html = function(htmlOrString) {
+	if (fragment.isString(htmlOrString) === true || typeof htmlOrString === 'number') {
+		this._element.innerHTML = htmlOrString;
+	}
+	return this._element.innerHTML;
+};
 
-	/**
-	 * Appends the element to the passed element.
-	 *
-	 * @param Element element
-	 * @return undefined
-	 */
-	Element.prototype.appendTo = function(element) {
-		this.removeFromParent();
-		this.parent = element;
-		this.parent.add(this._element);
-	};
+/**
+ * Adds a inline style to the element.
+ *
+ * @param string propertyName
+ * @param string value
+ * @return undefined
+ */
+Element.prototype.css = function(propertyName, value) {
+    this._element.style[propertyName] = value;
+};
 
-	/**
-	 * Removes the element from the stage.
-	 *
-	 * @return undefined
-	 */
-	Element.prototype.removeFromParent = function() {
-		if (this.parent === null) {
-			return;
-		}
-		this.parent.remove(this._element);
-	};
+/**
+ * Adds a class name to the element.
+ *
+ * @param string className
+ * @return undefined
+ */
+Element.prototype.addStyleName = function(className) {
+    this._element.className += " "+className;
+};
 
+<<<<<<< HEAD
 	/**
 	* Factory methods.
 	*/
@@ -225,3 +248,63 @@ define(['./EventDispatcher', '../event/Event', '../fragment'], function(EventDis
 	fragment.Element = Element;
 	return Element;
 });
+=======
+/**
+ * Appends a child.
+ *
+ * @param Element child
+ * @return undefined
+ */
+Element.prototype.add = function(child) {
+	this._element.appendChild(child);
+};
+
+/**
+ * Removes a child.
+ *
+ * @param Element child
+ * @return undefined
+ */
+Element.prototype.remove = function(child) {
+	this._element.removeChild(child);
+};
+
+/**
+ * Appends the element to the passed element.
+ *
+ * @param Element element
+ * @return undefined
+ */
+Element.prototype.appendTo = function(element) {
+	this.removeFromParent();
+	this.parent = element;
+	this.parent.add(this._element);
+};
+
+/**
+ * Removes the element from the stage.
+ *
+ * @return undefined
+ */
+Element.prototype.removeFromParent = function() {
+	if (this.parent === null) {
+		return;
+	}
+	this.parent.remove(this._element);
+};
+
+/**
+* Factory methods.
+*/
+Element.create = function(nodeName) {
+	return new Element(nodeName);
+};
+
+Element.createWithElement = function(elem) {
+	var element = new Element();
+	element.setElement(elem);
+	return element;
+};
+
+fragment.Element = Element;
+>>>>>>> origin/no-requirejs

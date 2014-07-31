@@ -1,36 +1,27 @@
 /**
- * Base of all plugins.
- *
- * @author Emil Johansson <emiljohansson.se@gmail.com>
+ * Constructor method.
  */
-define([], function() {
-	'use strict';
+function SoundManager() {}
 
-	/**
-	 * Constructor method.
-	 */
-	function SoundManager() {}
+/**
+* Plays a sound.
+*
+* @param AssetManager assetManager
+* @return undefined
+*/
+SoundManager.prototype.play = function(assetId) {
+	createjs.Sound.play(assetId);
+};
 
-	/**
-	* Plays a sound.
-	*
-	* @param AssetManager assetManager
-	* @return undefined
-	*/
-	SoundManager.prototype.play = function(assetId) {
-		createjs.Sound.play(assetId);
-	};
+/**
+ * Appends the SoundManager onto the element.
+ *
+ * @param Element element
+ * @return boolean
+ */
+SoundManager.prototype.toggleSound = function() {
+	createjs.Sound.setMute(!createjs.Sound.getMute());
+	return !createjs.Sound.getMute();
+};
 
-	/**
-	 * Appends the SoundManager onto the element.
-	 *
-	 * @param Element element
-	 * @return boolean
-	 */
-	SoundManager.prototype.toggleSound = function() {
-		createjs.Sound.setMute(!createjs.Sound.getMute());
-		return !createjs.Sound.getMute();
-	};
-
-	return new SoundManager();
-});
+fragment.soundManager = new SoundManager();
