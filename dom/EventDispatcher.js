@@ -40,54 +40,6 @@ EventDispatcher.prototype.removeEventListener = function(type, listener, useCapt
 	useCapture = useCapture || false;
 	if (typeof this._listeners[event] === 'undefined') {
 		return this;
-<<<<<<< HEAD
-	};
-
-	/**
-	 * Removes all events for the type.
-	 *
-	 * @param string type
-	 * @param function listener
-	 * @param boolean useCapture
-	 * @return EventDispatcher
-	 */
-	EventDispatcher.prototype.removeEventListener = function(type, listener, useCapture) {
-		useCapture = useCapture || false;
-		if (typeof this._listeners[event] === 'undefined') {
-			return this;
-		}
-		var listeners = this._listeners[event];
-		if (typeof listeners === 'undefined') {
-			return this;
-		}
-		var i = listeners.length;
-		while (i--) {
-			if (listeners[i].listener === listener) {
-				listeners.splice(i, 1);
-			}
-		}
-		return this;
-	};
-
-	/**
-	 * Triggers an event.
-	 *
-	 * @param string type
-	 * @param Array | object args
-	 * @return EventDispatcher
-	 */
-	EventDispatcher.prototype.dispatchListener = function(type, args) {
-		if (typeof this._listeners[event] === 'undefined') {
-			return this;
-		}
-		var listeners = this._listeners[event];
-		if (typeof listeners === 'undefined') {
-			return this;
-		}
-		var i = listeners.length;
-		while (i--) {
-			listeners[i].listener.call(listeners[i].context, args);
-=======
 	}
 	var listeners = this._listeners[event];
 	if (typeof listeners === 'undefined') {
@@ -97,7 +49,6 @@ EventDispatcher.prototype.removeEventListener = function(type, listener, useCapt
 	while (i--) {
 		if (listeners[i].listener === listener) {
 			listeners.splice(i, 1);
->>>>>>> origin/no-requirejs
 		}
 	}
 	return this;
@@ -125,9 +76,4 @@ EventDispatcher.prototype.dispatchListener = function(type, args) {
 	return this;
 };
 
-<<<<<<< HEAD
-	return EventDispatcher;
-});
-=======
 fragment.EventDispatcher = EventDispatcher;
->>>>>>> origin/no-requirejs

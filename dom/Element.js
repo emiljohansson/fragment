@@ -54,18 +54,6 @@ Element.prototype.dispose = function() {
 	this.removeFromParent();
 };
 
-<<<<<<< HEAD
-	/**
-	 * @ineheritDoc
-	 */
-	Element.prototype.addEventListener = function(type, listener, useCapture) {
-		if (this._inEventList(type) === false) {
-			return EventDispatcher.prototype.addEventListener.call(type, listener, useCapture);
-		}
-		Event.addEventListener(this._element, type, listener, useCapture);
-		return this;
-	};
-=======
 /**
  * @ineheritDoc
  */
@@ -76,7 +64,6 @@ Element.prototype.addEventListener = function(type, listener, useCapture) {
 	Event.addEventListener(this._element, type, listener, useCapture);
 	return this;
 };
->>>>>>> origin/no-requirejs
 
 /**
  * @ineheritDoc
@@ -109,67 +96,6 @@ Element.prototype.setElement = function(elem) {
 	return this._element;
 };
 
-<<<<<<< HEAD
-	/**
-	* ...
-	*
-	* @param string selector
-	* @return DOMElement || null
-	*/
-	Element.prototype.find = function(selector) {
-		return this.getElement().querySelector(selector);
-	};
-
-	/**
-	* ...
-	*
-	* @param boolean visible
-	* @return undefined
-	*/
-	Element.prototype.setVisible = function(visible) {
-		if (visible === true) {
-			this.css('left', '');
-			this.css('position', '');
-			return;
-		}
-		this.css('left', '-9999px');
-		this.css('position', 'absolute');
-	};
-
-	/**
-	 * Adds a string to the element.
-	 *
-	 * @param string htmlOrString
-	 * @return undefined
-	 */
-	Element.prototype.html = function(htmlOrString) {
-		if (fragment.isString(htmlOrString) === true || typeof htmlOrString === 'number') {
-			this._element.innerHTML = htmlOrString;
-		}
-		return this._element.innerHTML;
-	};
-
-    /**
-     * Adds a inline style to the element.
-     *
-     * @param string propertyName
-     * @param string value
-     * @return undefined
-     */
-    Element.prototype.css = function(propertyName, value) {
-        this._element.style[propertyName] = value;
-    };
-
-    /**
-     * Adds a class name to the element.
-     *
-     * @param string className
-     * @return undefined
-     */
-    Element.prototype.addStyleName = function(className) {
-        this._element.className += " "+className;
-    };
-=======
 /**
 * ...
 *
@@ -179,7 +105,6 @@ Element.prototype.setElement = function(elem) {
 Element.prototype.find = function(selector) {
 	return this.getElement().querySelector(selector);
 };
->>>>>>> origin/no-requirejs
 
 /**
 * ...
@@ -231,24 +156,6 @@ Element.prototype.addStyleName = function(className) {
     this._element.className += " "+className;
 };
 
-<<<<<<< HEAD
-	/**
-	* Factory methods.
-	*/
-	Element.create = function(nodeName) {
-		return new Element(nodeName);
-	};
-
-	Element.createWithElement = function(elem) {
-		var element = new Element();
-		element.setElement(elem);
-		return element;
-	};
-
-	fragment.Element = Element;
-	return Element;
-});
-=======
 /**
  * Appends a child.
  *
@@ -307,4 +214,3 @@ Element.createWithElement = function(elem) {
 };
 
 fragment.Element = Element;
->>>>>>> origin/no-requirejs

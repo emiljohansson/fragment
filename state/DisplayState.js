@@ -23,10 +23,4 @@ DisplayState.prototype.dispose = function() {
 	Element.prototype.dispose.call(this);
 };
 
-<<<<<<< HEAD
-	fragment.DisplayState = DisplayState;
-	return DisplayState;
-});
-=======
 fragment.DisplayState = DisplayState;
->>>>>>> origin/no-requirejs
