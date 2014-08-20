@@ -3,6 +3,7 @@
  */
 function Plugin() {
 	this._list = [];
+	this._element = null;
 }
 
 /**
@@ -22,6 +23,8 @@ Plugin.prototype.add = function(element) {
  * @param Element element
  * @return undefined
  */
-Plugin.prototype._initElement = function(element) {};
+Plugin.prototype._initElement = function(element) {
+	this._element = element;
+};
 
 fragment.Plugin = Plugin;

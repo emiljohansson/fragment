@@ -9,9 +9,9 @@ var preload = null;
 */
 function AssetManager() {
 	/**
-	 * Successful downloads.
-	 * @var int
-	 */
+	* Successful downloads.
+	* @var int
+	*/
 	this._successCount = 0;
 
 	/**
@@ -19,6 +19,19 @@ function AssetManager() {
 	* @var int
 	*/
 	this._errorCount = 0;
+
+	/**
+	* The onComplete method will only be called once, for now.
+	* @var int
+	* @todo better solution for on demand calls. new class?
+	*/
+	this._manifestLoaded = false;
+
+	/**
+	* Will be triggered for each file loaded.
+	* @var function
+	*/
+	this.onItemLoaded = function() {};
 
 	/**
 	* Will be triggered once all files are downloaded.
@@ -45,6 +58,18 @@ AssetManager.prototype._initPreloader = function() {
 };
 
 /**
+* Loads a single file and calls back when done.
+* For now this should only be used after initial loading. It will break
+* the default file handle method.
+*
+* @param string url
+* @return undefined
+*/
+AssetManager.prototype.loadFileOnDemand = function(url) {
+	preload.loadFile(url);
+};
+
+/**
 * Loads an entire manifest file.
 *
 * @param string manifestFile
@@ -55,21 +80,17 @@ AssetManager.prototype.loadManifest = function(manifestFile, folder) {
 };
 
 /**
- * Initializes the loaded file.
- *
- * @param Event event
- * @return undefined
- */
-AssetManager.prototype._handleFileLoaded = function(/*event*/) {
-	/*var item = event.item;
-	switch (item.type) {
-		case createjs.LoadQueue.IMAGE:
-			break;
-		case createjs.LoadQueue.SOUND:
-			break;
-	}*/
+* Initializes the loaded file.
+*
+* @param Event event
+* @return undefined
+*/
+AssetManager.prototype._handleFileLoaded = function(event) {
+	var item = event.item;
+	this.onItemLoaded(item);
 	this._successCount++;
-	if (this._isDone()) {
+	if (this._isDone() && this._manifestLoaded === false) {
+		this._manifestLoaded = true;
 		this.onComplete();
 	}
 };

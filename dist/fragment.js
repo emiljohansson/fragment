@@ -17,9 +17,10 @@ var fragment = {};
  * @param mixed obj
  * @return boolean
  */
-fragment.isSet = function(obj) {
+function isSet(obj) {
     return (typeof obj !== 'undefined' && obj !== null);
-};
+}
+fragment.isSet = isSet;
 
 /**
  * Returns if the type of the object is a string.
@@ -27,9 +28,10 @@ fragment.isSet = function(obj) {
  * @param mixed obj
  * @return boolean
  */
-fragment.isString = function(obj) {
+function isString(obj) {
 	return typeof obj === 'string';
-};
+}
+fragment.isString = isString;
 
 /**
  *	https://github.com/emiljohansson/captn
@@ -42,7 +44,6 @@ fragment.isString = function(obj) {
  *	@version	0.1.1
  *	@since		2013-08-10
  */
-'use strict';
 
 //-----------------------------------------------------------
 //	Public class
@@ -219,54 +220,6 @@ EventDispatcher.prototype.removeEventListener = function(type, listener, useCapt
 	useCapture = useCapture || false;
 	if (typeof this._listeners[event] === 'undefined') {
 		return this;
-<<<<<<< HEAD
-	};
-
-	/**
-	 * Removes all events for the type.
-	 *
-	 * @param string type
-	 * @param function listener
-	 * @param boolean useCapture
-	 * @return EventDispatcher
-	 */
-	EventDispatcher.prototype.removeEventListener = function(type, listener, useCapture) {
-		useCapture = useCapture || false;
-		if (typeof this._listeners[event] === 'undefined') {
-			return this;
-		}
-		var listeners = this._listeners[event];
-		if (typeof listeners === 'undefined') {
-			return this;
-		}
-		var i = listeners.length;
-		while (i--) {
-			if (listeners[i].listener === listener) {
-				listeners.splice(i, 1);
-			}
-		}
-		return this;
-	};
-
-	/**
-	 * Triggers an event.
-	 *
-	 * @param string type
-	 * @param Array | object args
-	 * @return EventDispatcher
-	 */
-	EventDispatcher.prototype.dispatchListener = function(type, args) {
-		if (typeof this._listeners[event] === 'undefined') {
-			return this;
-		}
-		var listeners = this._listeners[event];
-		if (typeof listeners === 'undefined') {
-			return this;
-		}
-		var i = listeners.length;
-		while (i--) {
-			listeners[i].listener.call(listeners[i].context, args);
-=======
 	}
 	var listeners = this._listeners[event];
 	if (typeof listeners === 'undefined') {
@@ -276,7 +229,6 @@ EventDispatcher.prototype.removeEventListener = function(type, listener, useCapt
 	while (i--) {
 		if (listeners[i].listener === listener) {
 			listeners.splice(i, 1);
->>>>>>> origin/no-requirejs
 		}
 	}
 	return this;
@@ -304,12 +256,7 @@ EventDispatcher.prototype.dispatchListener = function(type, args) {
 	return this;
 };
 
-<<<<<<< HEAD
-	return EventDispatcher;
-});
-=======
 fragment.EventDispatcher = EventDispatcher;
->>>>>>> origin/no-requirejs
 
 /**
  * Constructor method.
@@ -363,22 +310,8 @@ Element.prototype._inEventList = function(type) {
 *
 * @return undefined
 */
-Element.prototype.dispose = function() {
-	this.removeFromParent();
-};
+Element.prototype.dispose = function() {};
 
-<<<<<<< HEAD
-	/**
-	 * @ineheritDoc
-	 */
-	Element.prototype.addEventListener = function(type, listener, useCapture) {
-		if (this._inEventList(type) === false) {
-			return EventDispatcher.prototype.addEventListener.call(type, listener, useCapture);
-		}
-		Event.addEventListener(this._element, type, listener, useCapture);
-		return this;
-	};
-=======
 /**
  * @ineheritDoc
  */
@@ -389,7 +322,6 @@ Element.prototype.addEventListener = function(type, listener, useCapture) {
 	Event.addEventListener(this._element, type, listener, useCapture);
 	return this;
 };
->>>>>>> origin/no-requirejs
 
 /**
  * @ineheritDoc
@@ -422,67 +354,6 @@ Element.prototype.setElement = function(elem) {
 	return this._element;
 };
 
-<<<<<<< HEAD
-	/**
-	* ...
-	*
-	* @param string selector
-	* @return DOMElement || null
-	*/
-	Element.prototype.find = function(selector) {
-		return this.getElement().querySelector(selector);
-	};
-
-	/**
-	* ...
-	*
-	* @param boolean visible
-	* @return undefined
-	*/
-	Element.prototype.setVisible = function(visible) {
-		if (visible === true) {
-			this.css('left', '');
-			this.css('position', '');
-			return;
-		}
-		this.css('left', '-9999px');
-		this.css('position', 'absolute');
-	};
-
-	/**
-	 * Adds a string to the element.
-	 *
-	 * @param string htmlOrString
-	 * @return undefined
-	 */
-	Element.prototype.html = function(htmlOrString) {
-		if (fragment.isString(htmlOrString) === true || typeof htmlOrString === 'number') {
-			this._element.innerHTML = htmlOrString;
-		}
-		return this._element.innerHTML;
-	};
-
-    /**
-     * Adds a inline style to the element.
-     *
-     * @param string propertyName
-     * @param string value
-     * @return undefined
-     */
-    Element.prototype.css = function(propertyName, value) {
-        this._element.style[propertyName] = value;
-    };
-
-    /**
-     * Adds a class name to the element.
-     *
-     * @param string className
-     * @return undefined
-     */
-    Element.prototype.addStyleName = function(className) {
-        this._element.className += " "+className;
-    };
-=======
 /**
 * ...
 *
@@ -492,7 +363,6 @@ Element.prototype.setElement = function(elem) {
 Element.prototype.find = function(selector) {
 	return this.getElement().querySelector(selector);
 };
->>>>>>> origin/no-requirejs
 
 /**
 * ...
@@ -518,6 +388,9 @@ Element.prototype.setVisible = function(visible) {
  */
 Element.prototype.html = function(htmlOrString) {
 	if (fragment.isString(htmlOrString) === true || typeof htmlOrString === 'number') {
+		if (isSet(this._element) === false) {
+			return;
+		}
 		this._element.innerHTML = htmlOrString;
 	}
 	return this._element.innerHTML;
@@ -544,24 +417,16 @@ Element.prototype.addStyleName = function(className) {
     this._element.className += " "+className;
 };
 
-<<<<<<< HEAD
-	/**
-	* Factory methods.
-	*/
-	Element.create = function(nodeName) {
-		return new Element(nodeName);
-	};
+/**
+* Adds a class name to the element.
+*
+* @param string className
+* @return undefined
+*/
+Element.prototype.removeStyleName = function(className) {
+	this._element.className = this._element.className.replace(className, "");
+};
 
-	Element.createWithElement = function(elem) {
-		var element = new Element();
-		element.setElement(elem);
-		return element;
-	};
-
-	fragment.Element = Element;
-	return Element;
-});
-=======
 /**
  * Appends a child.
  *
@@ -592,6 +457,9 @@ Element.prototype.appendTo = function(element) {
 	this.removeFromParent();
 	this.parent = element;
 	this.parent.add(this._element);
+	if (typeof this.init === 'function') {
+		this.init();
+	}
 };
 
 /**
@@ -600,10 +468,13 @@ Element.prototype.appendTo = function(element) {
  * @return undefined
  */
 Element.prototype.removeFromParent = function() {
-	if (this.parent === null) {
+	if (isSet(this.parent) === false) {
 		return;
 	}
 	this.parent.remove(this._element);
+	if (typeof this.dispose === 'function') {
+		this.dispose();
+	}
 };
 
 /**
@@ -620,7 +491,6 @@ Element.createWithElement = function(elem) {
 };
 
 fragment.Element = Element;
->>>>>>> origin/no-requirejs
 
 /**
 * Constructor method.
@@ -632,22 +502,7 @@ function Container() {
 }
 Container.prototype = Object.create(Element.prototype);
 
-<<<<<<< HEAD
-	/**
-	* Constructor method.
-	*/
-	function Container() {
-		Element.apply(this);
-		this._element.setAttribute('class', 'fragment-container');
-	}
-	Container.prototype = Object.create(Element.prototype);
-
-	fragment.Container = Container;
-	return Container;
-});
-=======
 fragment.Container = Container;
->>>>>>> origin/no-requirejs
 
 /**
 * Constructor method.
@@ -744,13 +599,7 @@ DisplayState.prototype.dispose = function() {
 	Element.prototype.dispose.call(this);
 };
 
-<<<<<<< HEAD
-	fragment.DisplayState = DisplayState;
-	return DisplayState;
-});
-=======
 fragment.DisplayState = DisplayState;
->>>>>>> origin/no-requirejs
 
 /**
  * ...
@@ -763,9 +612,9 @@ var preload = null;
 */
 function AssetManager() {
 	/**
-	 * Successful downloads.
-	 * @var int
-	 */
+	* Successful downloads.
+	* @var int
+	*/
 	this._successCount = 0;
 
 	/**
@@ -773,6 +622,19 @@ function AssetManager() {
 	* @var int
 	*/
 	this._errorCount = 0;
+
+	/**
+	* The onComplete method will only be called once, for now.
+	* @var int
+	* @todo better solution for on demand calls. new class?
+	*/
+	this._manifestLoaded = false;
+
+	/**
+	* Will be triggered for each file loaded.
+	* @var function
+	*/
+	this.onItemLoaded = function() {};
 
 	/**
 	* Will be triggered once all files are downloaded.
@@ -799,6 +661,18 @@ AssetManager.prototype._initPreloader = function() {
 };
 
 /**
+* Loads a single file and calls back when done.
+* For now this should only be used after initial loading. It will break
+* the default file handle method.
+*
+* @param string url
+* @return undefined
+*/
+AssetManager.prototype.loadFileOnDemand = function(url) {
+	preload.loadFile(url);
+};
+
+/**
 * Loads an entire manifest file.
 *
 * @param string manifestFile
@@ -809,21 +683,17 @@ AssetManager.prototype.loadManifest = function(manifestFile, folder) {
 };
 
 /**
- * Initializes the loaded file.
- *
- * @param Event event
- * @return undefined
- */
-AssetManager.prototype._handleFileLoaded = function(/*event*/) {
-	/*var item = event.item;
-	switch (item.type) {
-		case createjs.LoadQueue.IMAGE:
-			break;
-		case createjs.LoadQueue.SOUND:
-			break;
-	}*/
+* Initializes the loaded file.
+*
+* @param Event event
+* @return undefined
+*/
+AssetManager.prototype._handleFileLoaded = function(event) {
+	var item = event.item;
+	this.onItemLoaded(item);
 	this._successCount++;
-	if (this._isDone()) {
+	if (this._isDone() && this._manifestLoaded === false) {
+		this._manifestLoaded = true;
 		this.onComplete();
 	}
 };
@@ -894,41 +764,11 @@ function Countdown(seconds) {
 	this._intervalId = null;
 
 	/**
-<<<<<<< HEAD
-	* ...
-	*
-	* @return undefined
-	*/
-	Countdown.prototype.dispose = function() {
-		clearInterval(this._intervalId);
-		this._intervalId = null;
-		this._seconds = null;
-		this.onComplete = null;
-		this.onTick = null;
-	};
-
-	/**
-	 * Is called every second.
-	 *
-	 * @return undefined
-	 */
-	Countdown.prototype._tick = function() {
-		this._seconds = this._seconds - 1;
-		if (this._seconds < 0) {
-			this.stop();
-			return;
-		}
-		if (fragment.isSet(this.onTick) === true) {
-			this.onTick(this.getCount());
-		}
-	};
-=======
 	 * How countdown time.
 	 * @var Number
 	 */
 	this._seconds = seconds;
 }
->>>>>>> origin/no-requirejs
 
 /**
 * ...
@@ -970,23 +810,11 @@ Countdown.prototype._complete = function() {
 	}
 };
 
-<<<<<<< HEAD
-	/**
-	 * Starts the countdown.
-	 *
-	 * @return undefined
-	 */
-	Countdown.prototype.start = function() {
-		this._intervalId = setInterval(this._tick.bind(this), 1000);
-        this._tick();
-	};
-=======
 /**
  * Is called every second.
  * @var Function
  */
 Countdown.prototype.onTick = null;
->>>>>>> origin/no-requirejs
 
 /**
  * Is called when the counter reaches zero.
@@ -1043,11 +871,19 @@ SoundManager.prototype.play = function(assetId) {
 /**
  * Appends the SoundManager onto the element.
  *
- * @param Element element
  * @return boolean
  */
 SoundManager.prototype.toggleSound = function() {
 	createjs.Sound.setMute(!createjs.Sound.getMute());
+	return this.soundIsOn();
+};
+
+/**
+* ...
+*
+* @return boolean
+*/
+SoundManager.prototype.soundIsOn = function() {
 	return !createjs.Sound.getMute();
 };
 
@@ -1058,6 +894,7 @@ fragment.soundManager = new SoundManager();
  */
 function Plugin() {
 	this._list = [];
+	this._element = null;
 }
 
 /**
@@ -1077,7 +914,9 @@ Plugin.prototype.add = function(element) {
  * @param Element element
  * @return undefined
  */
-Plugin.prototype._initElement = function(element) {};
+Plugin.prototype._initElement = function(element) {
+	this._element = element;
+};
 
 fragment.Plugin = Plugin;
 
@@ -1101,6 +940,11 @@ Animation.prototype._initElement = function(element) {
                 height: height
             }, 1000, "linear");
         },
+		marginLeft: function(val) {
+			$(element.getElement()).animate({
+				marginLeft: val
+			}, 1000, "linear");
+		},
         stop: function() {
             $(element.getElement()).stop();
         }
@@ -1115,6 +959,16 @@ Animation.prototype._initElement = function(element) {
  */
 Animation.prototype.append = function(/*properties*/) {
 	//
+};
+
+/**
+* Return the percentage of the bar.
+*
+* @return Number
+*/
+Animation.prototype.percent = function() {
+	var w = this._element.getElement().style.width;
+	return w.substring(0, w.length-1);
 };
 
 fragment.animation = new Animation();

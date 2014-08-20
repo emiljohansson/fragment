@@ -50,9 +50,7 @@ Element.prototype._inEventList = function(type) {
 *
 * @return undefined
 */
-Element.prototype.dispose = function() {
-	this.removeFromParent();
-};
+Element.prototype.dispose = function() {};
 
 /**
  * @ineheritDoc
@@ -130,6 +128,9 @@ Element.prototype.setVisible = function(visible) {
  */
 Element.prototype.html = function(htmlOrString) {
 	if (fragment.isString(htmlOrString) === true || typeof htmlOrString === 'number') {
+		if (isSet(this._element) === false) {
+			return;
+		}
 		this._element.innerHTML = htmlOrString;
 	}
 	return this._element.innerHTML;
@@ -154,6 +155,16 @@ Element.prototype.css = function(propertyName, value) {
  */
 Element.prototype.addStyleName = function(className) {
     this._element.className += " "+className;
+};
+
+/**
+* Adds a class name to the element.
+*
+* @param string className
+* @return undefined
+*/
+Element.prototype.removeStyleName = function(className) {
+	this._element.className = this._element.className.replace(className, "");
 };
 
 /**
@@ -186,6 +197,9 @@ Element.prototype.appendTo = function(element) {
 	this.removeFromParent();
 	this.parent = element;
 	this.parent.add(this._element);
+	if (typeof this.init === 'function') {
+		this.init();
+	}
 };
 
 /**
@@ -194,10 +208,13 @@ Element.prototype.appendTo = function(element) {
  * @return undefined
  */
 Element.prototype.removeFromParent = function() {
-	if (this.parent === null) {
+	if (isSet(this.parent) === false) {
 		return;
 	}
 	this.parent.remove(this._element);
+	if (typeof this.dispose === 'function') {
+		this.dispose();
+	}
 };
 
 /**

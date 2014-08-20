@@ -16,11 +16,19 @@ SoundManager.prototype.play = function(assetId) {
 /**
  * Appends the SoundManager onto the element.
  *
- * @param Element element
  * @return boolean
  */
 SoundManager.prototype.toggleSound = function() {
 	createjs.Sound.setMute(!createjs.Sound.getMute());
+	return this.soundIsOn();
+};
+
+/**
+* ...
+*
+* @return boolean
+*/
+SoundManager.prototype.soundIsOn = function() {
 	return !createjs.Sound.getMute();
 };
 

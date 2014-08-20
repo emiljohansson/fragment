@@ -18,6 +18,11 @@ Animation.prototype._initElement = function(element) {
                 height: height
             }, 1000, "linear");
         },
+		marginLeft: function(val) {
+			$(element.getElement()).animate({
+				marginLeft: val
+			}, 1000, "linear");
+		},
         stop: function() {
             $(element.getElement()).stop();
         }
@@ -32,6 +37,16 @@ Animation.prototype._initElement = function(element) {
  */
 Animation.prototype.append = function(/*properties*/) {
 	//
+};
+
+/**
+* Return the percentage of the bar.
+*
+* @return Number
+*/
+Animation.prototype.percent = function() {
+	var w = this._element.getElement().style.width;
+	return w.substring(0, w.length-1);
 };
 
 fragment.animation = new Animation();
