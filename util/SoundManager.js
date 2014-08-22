@@ -7,10 +7,26 @@ function SoundManager() {}
 * Plays a sound.
 *
 * @param AssetManager assetManager
-* @return undefined
+* @return sound instance
 */
-SoundManager.prototype.play = function(assetId) {
-	createjs.Sound.play(assetId);
+SoundManager.prototype.play = function(src, interrupt, delay, offset, loop, volume, pan, startTime, duration) {
+	if (this.soundIsOn() === false) { //sort of IE9 fix...
+		return;
+	}
+	return createjs.Sound.play(src, interrupt, delay, offset, loop, volume, pan, startTime, duration);
+};
+
+/**
+* ...
+*
+* @param AssetManager assetManager
+* @return sound instance
+*/
+SoundManager.prototype.playInstance = function(soundInstance) {
+	if (this.soundIsOn() === false) { //sort of IE9 fix...
+		return;
+	}
+	return soundInstance.play();
 };
 
 /**

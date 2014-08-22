@@ -49,7 +49,8 @@ function AssetManager() {
 */
 AssetManager.prototype._initPreloader = function() {
 	if (preload !== null) {return;}
-	createjs.Sound.registerPlugins(createjs.HTMLAudioPlugin); // need this so it doesn't default to Web Audio
+	createjs.FlashPlugin.swfPath = "./flash/";
+	createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.HTMLAudioPlugin, createjs.FlashPlugin]);
 	preload = preload || new createjs.LoadQueue(true);
 	preload.installPlugin(createjs.Sound);
 	preload.on("fileload", this._handleFileLoaded.bind(this));

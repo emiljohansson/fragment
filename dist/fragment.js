@@ -652,7 +652,8 @@ function AssetManager() {
 */
 AssetManager.prototype._initPreloader = function() {
 	if (preload !== null) {return;}
-	createjs.Sound.registerPlugins(createjs.HTMLAudioPlugin); // need this so it doesn't default to Web Audio
+	createjs.FlashPlugin.swfPath = "./flash/";
+	createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.HTMLAudioPlugin, createjs.FlashPlugin]);
 	preload = preload || new createjs.LoadQueue(true);
 	preload.installPlugin(createjs.Sound);
 	preload.on("fileload", this._handleFileLoaded.bind(this));
@@ -862,10 +863,26 @@ function SoundManager() {}
 * Plays a sound.
 *
 * @param AssetManager assetManager
-* @return undefined
+* @return sound instance
 */
-SoundManager.prototype.play = function(assetId) {
-	createjs.Sound.play(assetId);
+SoundManager.prototype.play = function(src, interrupt, delay, offset, loop, volume, pan, startTime, duration) {
+	if (this.soundIsOn() === false) { //sort of IE9 fix...
+		return;
+	}
+	return createjs.Sound.play(src, interrupt, delay, offset, loop, volume, pan, startTime, duration);
+};
+
+/**
+* ...
+*
+* @param AssetManager assetManager
+* @return sound instance
+*/
+SoundManager.prototype.playInstance = function(soundInstance) {
+	if (this.soundIsOn() === false) { //sort of IE9 fix...
+		return;
+	}
+	return soundInstance.play();
 };
 
 /**
