@@ -727,18 +727,6 @@ AssetManager.prototype._isDone = function() {
 /**
 * ...
 *
-* @return boolean
-*/
-AssetManager.prototype._isDone = function() {
-	if (this.onUpdate !== null && typeof this.onUpdate === 'function') {
-		this.onUpdate(preload.progress);
-	}
-	return preload.progress >= 1;
-};
-
-/**
-* ...
-*
 * @param string id The id from the manifest.
 * @return object
 */
