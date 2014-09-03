@@ -34,6 +34,12 @@ function AssetManager() {
 	this.onItemLoaded = function() {};
 
 	/**
+	* Will be triggered for each file that fails to load.
+	* @var function
+	*/
+	this.onItemFailed = function() {};
+
+	/**
 	* Will be triggered once all files are downloaded.
 	* @var function
 	*/
@@ -55,7 +61,6 @@ AssetManager.prototype._initPreloader = function() {
 	preload.installPlugin(createjs.Sound);
 	preload.on("fileload", this._handleFileLoaded.bind(this));
 	preload.on("error", this._handleFileError.bind(this));
-	window.preload = preload;
 };
 
 /**
@@ -63,11 +68,15 @@ AssetManager.prototype._initPreloader = function() {
 * For now this should only be used after initial loading. It will break
 * the default file handle method.
 *
-* @param string url
+* @param object fileData require following properties:
+*	src
+*	data
+*   type
+* 	id
 * @return undefined
 */
-AssetManager.prototype.loadFileOnDemand = function(url) {
-	preload.loadFile(url);
+AssetManager.prototype.loadFileOnDemand = function(fileData) {
+	preload.loadFile(fileData);
 };
 
 /**
@@ -102,7 +111,9 @@ AssetManager.prototype._handleFileLoaded = function(event) {
 * @param Event event
 * @return undefined
 */
-AssetManager.prototype._handleFileError = function(/*event*/) {
+AssetManager.prototype._handleFileError = function(event) {
+	var item = event.item;
+	this.onItemFailed(item);
 	this._errorCount++;
 	if (this._isDone()) {
 		this.onComplete();
