@@ -45,6 +45,15 @@ describe('dom/EventDispatcher', function () {
         ed.dispatchListener('testEvent');
         expect(responses).to.be.equal(1);
     });
+    it('should dispose all listeners', function() {
+        expect(responses).to.be.equal(1);
+        ed.addEventListener('testEvent', onTestHandler);
+        ed.dispatchListener('testEvent');
+        expect(responses).to.be.equal(2);
+        ed.dispose();
+        ed.dispatchListener('testEvent');
+        expect(responses).to.be.equal(2);
+    });
 });
 
 mocha.run();

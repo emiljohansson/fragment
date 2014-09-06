@@ -4,8 +4,18 @@
  */
 function EventDispatcher() {
 	this._listeners = {};
-	this._captureListeners = {};
 }
+
+/**
+* Removes all listeners.
+*
+* @return undefined
+*/
+EventDispatcher.prototype.dispose = function() {
+	for (var event in this._listeners) {
+		this._listeners[event].length = 0;
+	}
+};
 
 /**
  * Register an event. It's possible to add multiple events of the same type,

@@ -46,11 +46,13 @@ Element.prototype._inEventList = function(type) {
 };
 
 /**
-* Initializes the state.
+* ...
 *
 * @return undefined
 */
-Element.prototype.dispose = function() {};
+Element.prototype.dispose = function() {
+	EventDispatcher.prototype.dispose.call(this);
+};
 
 /**
  * @ineheritDoc
