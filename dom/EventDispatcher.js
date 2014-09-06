@@ -38,10 +38,10 @@ EventDispatcher.prototype.addEventListener = function(type, listener, useCapture
  */
 EventDispatcher.prototype.removeEventListener = function(type, listener, useCapture) {
 	useCapture = useCapture || false;
-	if (typeof this._listeners[event] === 'undefined') {
+	if (typeof this._listeners[type] === 'undefined') {
 		return this;
 	}
-	var listeners = this._listeners[event];
+	var listeners = this._listeners[type];
 	if (typeof listeners === 'undefined') {
 		return this;
 	}
@@ -62,10 +62,10 @@ EventDispatcher.prototype.removeEventListener = function(type, listener, useCapt
  * @return EventDispatcher
  */
 EventDispatcher.prototype.dispatchListener = function(type, args) {
-	if (typeof this._listeners[event] === 'undefined') {
+	if (typeof this._listeners[type] === 'undefined') {
 		return this;
 	}
-	var listeners = this._listeners[event];
+	var listeners = this._listeners[type];
 	if (typeof listeners === 'undefined') {
 		return this;
 	}

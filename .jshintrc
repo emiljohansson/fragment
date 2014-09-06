@@ -18,6 +18,7 @@
     "smarttabs": true,
     "jquery": true,
     "globals" : {
+      "chai"       : false,
       "describe"   : false,
       "it"         : false,
       "before"     : false,
