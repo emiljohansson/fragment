@@ -52,6 +52,7 @@ Element.prototype._inEventList = function(type) {
 */
 Element.prototype.dispose = function() {
 	EventDispatcher.prototype.dispose.call(this);
+	this._element = null;
 };
 
 /**
@@ -68,11 +69,26 @@ Element.prototype.addEventListener = function(type, listener, useCapture) {
 /**
  * @ineheritDoc
  */
-EventDispatcher.prototype.removeEventListener = function(type, listener, useCapture) {
+Element.prototype.removeEventListener = function(type, listener, useCapture) {
 	if (this._inEventList(type) === false) {
-		return EventDispatcher.prototype.addEventListener.call(type, listener, useCapture);
+		return EventDispatcher.prototype.removeEventListener.call(type, listener, useCapture);
 	}
 	Event.removeEventListener(this._element, type, listener);
+	return this;
+};
+
+/**
+* Triggers an event.
+*
+* @param string type
+* @param Array | object args
+* @return EventDispatcher
+*/
+Element.prototype.dispatchListener = function(type, args) {
+	if (this._inEventList(type) === false) {
+		return EventDispatcher.prototype.dispatchListener(type, args);
+	}
+	Event.triggerEvent(this._element, type);
 	return this;
 };
 

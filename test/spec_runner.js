@@ -1,5 +1,6 @@
 'use strict';
 
+/*jshint unused: false */
 /*globals mocha */
 mocha.setup('bdd');
 
@@ -53,6 +54,33 @@ describe('dom/EventDispatcher', function () {
         ed.dispose();
         ed.dispatchListener('testEvent');
         expect(responses).to.be.equal(2);
+    });
+});
+
+describe('dom/Element', function () {
+    var el = new fragment.Element();
+    var responses = 0;
+    function onClick() {
+        responses++;
+    }
+    it('should be a div element', function() {
+        expect(el.getElement().tagName).to.be.equal('DIV');
+    });
+
+    it('should listen to click event', function() {
+        el.addEventListener.should.be.a('function');
+        expect(responses).to.be.equal(0);
+        el.addEventListener('click', onClick);
+        el.dispatchListener('click');
+        expect(responses).to.be.equal(1);
+    });
+
+    it('should stop listen to click event', function() {
+        el.removeEventListener.should.be.a('function');
+        expect(responses).to.be.equal(1);
+        el.removeEventListener('click', onClick);
+        el.dispatchListener('click');
+        expect(responses).to.be.equal(1);
     });
 });
 
