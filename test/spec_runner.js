@@ -82,6 +82,17 @@ describe('dom/Element', function () {
         el.dispatchListener('click');
         expect(responses).to.be.equal(1);
     });
+
+
+    it('should set and get DOMElement', function() {
+        var curr = el.getElement();
+        var newEl = document.createElement('span');
+        el.setElement(newEl);
+        expect(el.getElement()).to.equal(newEl);
+        expect(el.getElement().tagName).to.equal('SPAN');
+        el.setElement(curr);
+        expect(el.getElement()).to.equal(curr);
+    });
 });
 
 mocha.run();

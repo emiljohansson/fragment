@@ -102,32 +102,22 @@ Element.prototype.getElement = function() {
 };
 
 /**
-* Replaces the current DOM element.
-*
-* @param DOMElement elem
-* @return DOMElement
-*/
+ * Replaces the current DOM element.
+ *
+ * @param DOMElement elem
+ * @return DOMElement
+ */
 Element.prototype.setElement = function(elem) {
 	this._element = elem;
 	return this._element;
 };
 
 /**
-* ...
-*
-* @param string selector
-* @return DOMElement || null
-*/
-Element.prototype.find = function(selector) {
-	return this.getElement().querySelector(selector);
-};
-
-/**
-* ...
-*
-* @param boolean visible
-* @return undefined
-*/
+ * ...
+ *
+ * @param boolean visible
+ * @return undefined
+ */
 Element.prototype.setVisible = function(visible) {
 	if (visible === true) {
 		this.css('left', '');
@@ -233,6 +223,16 @@ Element.prototype.removeFromParent = function() {
 	if (typeof this.dispose === 'function') {
 		this.dispose();
 	}
+};
+
+/**
+ * ...
+ *
+ * @param string selector
+ * @return DOMElement || null
+ */
+Element.prototype.find = function(selector) {
+	return this.getElement().querySelector(selector);
 };
 
 /**
