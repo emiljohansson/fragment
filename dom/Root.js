@@ -1,8 +1,6 @@
 /**
- * Constructor method.
  * The lowerst appendable element in the application.
- * Appends to the body tag.
- *
+ * Is appended to the body tag.
  */
 function Root() {
     Element.apply(this);
