@@ -14,13 +14,4 @@ DisplayState.prototype = Object.create(Element.prototype);
 */
 DisplayState.prototype.init = function() {};
 
-/**
-* Initializes the state.
-*
-* @return undefined
-*/
-DisplayState.prototype.dispose = function() {
-	Element.prototype.dispose.call(this);
-};
-
 fragment.DisplayState = DisplayState;
