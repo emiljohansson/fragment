@@ -15,6 +15,7 @@ describe('Fragment core', function () {
         assert.equal(fragment.isString(null), false);
         assert.equal(fragment.isString('null'), true);
         assert.equal(fragment.isString(''), true);
+        assert.equal(fragment.isString('asd'), true);
     });
     it('should be set', function () {
         assert.equal(fragment.isSet(), false);
@@ -37,12 +38,19 @@ describe('dom/EventDispatcher', function () {
     it('should listen and respond', function() {
         expect(responses).to.be.equal(0);
         ed.addEventListener('testEvent', onTestHandler);
-        ed.dispatchListener('testEvent');
+        var tempEd = ed.dispatchListener('testEvent');
+        expect(tempEd).to.be.equal(ed);
+        expect(responses).to.be.equal(1);
+        tempEd = ed.dispatchListener('notSetEvent');
+        expect(tempEd).to.be.equal(ed);
         expect(responses).to.be.equal(1);
     });
     it('should remove event and not respond', function() {
         expect(responses).to.be.equal(1);
-        ed.removeEventListener('testEvent', onTestHandler);
+        var tempEd = ed.removeEventListener('testEvent', onTestHandler);
+        expect(tempEd).to.be.equal(ed);
+        tempEd = ed.removeEventListener('notSetEvent', onTestHandler);
+        expect(tempEd).to.be.equal(ed);
         ed.dispatchListener('testEvent');
         expect(responses).to.be.equal(1);
     });
