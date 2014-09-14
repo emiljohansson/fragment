@@ -17,16 +17,6 @@
 var Event = {};
 
 //-----------------------------------------------------------
-//	Public static constant properties
-//-----------------------------------------------------------
-
-Event.EventType = {};
-Event.EventType.LOAD = 'load';
-Event.EventType.SUBMIT = 'submit';
-Event.EventType.CLICK = 'click';
-Event.EventType.CHANGE = 'change';
-
-//-----------------------------------------------------------
 //	Private methods
 //-----------------------------------------------------------
 
@@ -42,7 +32,7 @@ Event.EventType.CHANGE = 'change';
 function addListenerToArray(elemList, type, listener, useCapture) {
 	var i = elemList.length;
 	while (i--) {
-		Event.addListener(elemList[i], type, listener, useCapture);
+		Event.addEventListener(elemList[i], type, listener, useCapture);
 	}
 }
 
@@ -61,7 +51,7 @@ function addListenerToArray(elemList, type, listener, useCapture) {
  */
 Event.addEventListener = function(elem, type, listener, useCapture) {
 	useCapture = useCapture || false;
-	if (Object.prototype.toString.call( elem ) === '[object Array]') {
+	if (Array.isArray(elem) === true) {
 		addListenerToArray(elem, type, listener, useCapture);
 		return;
 	}
@@ -110,22 +100,18 @@ Event.removeEventListener = function(elem, type, listener, useCapture) {
  *	@return	{HTMLElement}
  */
 Event.triggerEvent = function(elem, type) {
-	if (!elem) {
+	if (!elem || !type) {
 		return;
 	}
 	var event;
 	if (document.createEvent) {
 		event = document.createEvent("HTMLEvents");
 		event.initEvent(type, true, true);
+		elem.dispatchEvent(event);
 	}
 	else {
 		event = document.createEventObject();
 		event.eventType = type;
-	}
-	if (document.createEvent) {
-		elem.dispatchEvent(event);
-	}
-	else {
 		elem.fireEvent("on" + event.eventType, event);
 	}
 	return elem;
