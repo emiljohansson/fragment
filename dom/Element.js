@@ -4,7 +4,7 @@
  * @param string nodeName
  */
 function Element(nodeName) {
-	EventDispatcher.apply(this);
+	EventDispatcher.call(this);
 
 	/**
 	 * Element object.
@@ -63,22 +63,20 @@ Element.prototype.dispose = function() {
  * @ineheritDoc
  */
 Element.prototype.addEventListener = function(type, listener, useCapture) {
-	if (this._inEventList(type) === false) {
-		return EventDispatcher.prototype.addEventListener.call(type, listener, useCapture);
+	if (this._inEventList(type) === true) {
+		Event.addEventListener(this._element, type, listener, useCapture);
 	}
-	Event.addEventListener(this._element, type, listener, useCapture);
-	return this;
+	return EventDispatcher.prototype.addEventListener.call(this, type, listener, useCapture);
 };
 
 /**
  * @ineheritDoc
  */
 Element.prototype.removeEventListener = function(type, listener, useCapture) {
-	if (this._inEventList(type) === false) {
-		return EventDispatcher.prototype.removeEventListener.call(type, listener, useCapture);
+	if (this._inEventList(type) === true) {
+		Event.removeEventListener(this._element, type, listener);
 	}
-	Event.removeEventListener(this._element, type, listener);
-	return this;
+	return EventDispatcher.prototype.removeEventListener.call(this, type, listener, useCapture);
 };
 
 /**
@@ -89,11 +87,11 @@ Element.prototype.removeEventListener = function(type, listener, useCapture) {
 * @return EventDispatcher
 */
 Element.prototype.dispatchListener = function(type, args) {
-	if (this._inEventList(type) === false) {
-		return EventDispatcher.prototype.dispatchListener(type, args);
+	if (this._inEventList(type) === true) {
+		Event.triggerEvent(this._element, type);
+		return this;
 	}
-	Event.triggerEvent(this._element, type);
-	return this;
+	return EventDispatcher.prototype.dispatchListener.call(this, type, args);
 };
 
 /**

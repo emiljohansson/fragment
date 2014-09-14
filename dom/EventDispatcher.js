@@ -12,6 +12,12 @@ function EventDispatcher() {
 * @return undefined
 */
 EventDispatcher.prototype.dispose = function() {
+	for (var type in this._listeners) {
+		var i = this._listeners[type].length;
+		while (i--) {
+			this.removeEventListener(type, this._listeners[type][i].listener);
+		}
+	}
 	this._listeners = {};
 };
 
