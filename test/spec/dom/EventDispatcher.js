@@ -5,7 +5,6 @@ describe('EventDispatcher', function () {
     }
 
     before(function(){
-        console.log("setup", this);
         this.ed = new fragment.EventDispatcher();
     });
 

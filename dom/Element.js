@@ -122,10 +122,12 @@ Element.prototype.setElement = function(elem) {
  */
 Element.prototype.setVisible = function(visible) {
 	if (visible === true) {
+		this.css('top', '');
 		this.css('left', '');
 		this.css('position', '');
 		return;
 	}
+	this.css('top', '-9999px');
 	this.css('left', '-9999px');
 	this.css('position', 'absolute');
 };
@@ -138,7 +140,7 @@ Element.prototype.setVisible = function(visible) {
  */
 Element.prototype.html = function(htmlOrString) {
 	if (fragment.isString(htmlOrString) === true || typeof htmlOrString === 'number') {
-		if (isSet(this._element) === false) {
+		if (fragment.isSet(this._element) === false) {
 			return;
 		}
 		this._element.innerHTML = htmlOrString;
@@ -218,7 +220,7 @@ Element.prototype.appendTo = function(element) {
  * @return undefined
  */
 Element.prototype.removeFromParent = function() {
-	if (isSet(this.parent) === false) {
+	if (fragment.isSet(this.parent) === false) {
 		return;
 	}
 	this.parent.remove(this._element);
@@ -245,6 +247,9 @@ Element.create = function(nodeName) {
 };
 
 Element.createWithElement = function(elem) {
+	if (fragment.isSet(elem) === false) {
+		throw 'elem is not set';
+	}
 	var element = new Element();
 	element.setElement(elem);
 	return element;
