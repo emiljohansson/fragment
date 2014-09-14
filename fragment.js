@@ -8,10 +8,9 @@ var fragment = {};
  * @param mixed obj
  * @return boolean
  */
-function isSet(obj) {
+fragment.isSet = function(obj) {
     return (typeof obj !== 'undefined' && obj !== null);
-}
-fragment.isSet = isSet;
+};
 
 /**
  * Returns if the type of the object is a string.
@@ -19,7 +18,6 @@ fragment.isSet = isSet;
  * @param mixed obj
  * @return boolean
  */
-function isString(obj) {
-	return typeof obj === 'string';
-}
-fragment.isString = isString;
+fragment.isString = function(obj) {
+    return typeof obj === 'string';
+};

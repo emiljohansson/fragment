@@ -33,7 +33,11 @@ Element.prototype._type = 'div';
 Element.prototype._mouseEvents = ['click'];
 
 /**
- * @ineheritDoc
+ * Returns true if a specific event type is in the list of mouse events.
+ *
+ * @param string type
+ * @return boolean
+ * @private
  */
 Element.prototype._inEventList = function(type) {
 	var i = this._mouseEvents.length;

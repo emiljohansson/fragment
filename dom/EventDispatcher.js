@@ -12,9 +12,7 @@ function EventDispatcher() {
 * @return undefined
 */
 EventDispatcher.prototype.dispose = function() {
-	for (var event in this._listeners) {
-		this._listeners[event].length = 0;
-	}
+	this._listeners = {};
 };
 
 /**

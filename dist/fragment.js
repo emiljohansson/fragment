@@ -184,8 +184,16 @@ fragment.Event = Event;
  */
 function EventDispatcher() {
 	this._listeners = {};
-	this._captureListeners = {};
 }
+
+/**
+* Removes all listeners.
+*
+* @return undefined
+*/
+EventDispatcher.prototype.dispose = function() {
+	this._listeners = {};
+};
 
 /**
  * Register an event. It's possible to add multiple events of the same type,
@@ -218,10 +226,7 @@ EventDispatcher.prototype.addEventListener = function(type, listener, useCapture
  */
 EventDispatcher.prototype.removeEventListener = function(type, listener, useCapture) {
 	useCapture = useCapture || false;
-	if (typeof this._listeners[event] === 'undefined') {
-		return this;
-	}
-	var listeners = this._listeners[event];
+	var listeners = this._listeners[type];
 	if (typeof listeners === 'undefined') {
 		return this;
 	}
@@ -242,10 +247,7 @@ EventDispatcher.prototype.removeEventListener = function(type, listener, useCapt
  * @return EventDispatcher
  */
 EventDispatcher.prototype.dispatchListener = function(type, args) {
-	if (typeof this._listeners[event] === 'undefined') {
-		return this;
-	}
-	var listeners = this._listeners[event];
+	var listeners = this._listeners[type];
 	if (typeof listeners === 'undefined') {
 		return this;
 	}
@@ -293,24 +295,25 @@ Element.prototype._type = 'div';
 Element.prototype._mouseEvents = ['click'];
 
 /**
- * @ineheritDoc
+ * Returns true if a specific event type is in the list of mouse events.
+ *
+ * @param string type
+ * @return boolean
+ * @private
  */
 Element.prototype._inEventList = function(type) {
-	var i = this._mouseEvents.length;
-	while (i--) {
-		if (type === this._mouseEvents[i]) {
-			return true;
-		}
-	}
-	return false;
+	return this._mouseEvents.indexOf(type) >= 0;
 };
 
 /**
-* Initializes the state.
+* ...
 *
 * @return undefined
 */
-Element.prototype.dispose = function() {};
+Element.prototype.dispose = function() {
+	EventDispatcher.prototype.dispose.call(this);
+	this._element = null;
+};
 
 /**
  * @ineheritDoc
@@ -326,11 +329,26 @@ Element.prototype.addEventListener = function(type, listener, useCapture) {
 /**
  * @ineheritDoc
  */
-EventDispatcher.prototype.removeEventListener = function(type, listener, useCapture) {
+Element.prototype.removeEventListener = function(type, listener, useCapture) {
 	if (this._inEventList(type) === false) {
-		return EventDispatcher.prototype.addEventListener.call(type, listener, useCapture);
+		return EventDispatcher.prototype.removeEventListener.call(type, listener, useCapture);
 	}
 	Event.removeEventListener(this._element, type, listener);
+	return this;
+};
+
+/**
+* Triggers an event.
+*
+* @param string type
+* @param Array | object args
+* @return EventDispatcher
+*/
+Element.prototype.dispatchListener = function(type, args) {
+	if (this._inEventList(type) === false) {
+		return EventDispatcher.prototype.dispatchListener(type, args);
+	}
+	Event.triggerEvent(this._element, type);
 	return this;
 };
 
@@ -344,32 +362,22 @@ Element.prototype.getElement = function() {
 };
 
 /**
-* Replaces the current DOM element.
-*
-* @param DOMElement elem
-* @return DOMElement
-*/
+ * Replaces the current DOM element.
+ *
+ * @param DOMElement elem
+ * @return DOMElement
+ */
 Element.prototype.setElement = function(elem) {
 	this._element = elem;
 	return this._element;
 };
 
 /**
-* ...
-*
-* @param string selector
-* @return DOMElement || null
-*/
-Element.prototype.find = function(selector) {
-	return this.getElement().querySelector(selector);
-};
-
-/**
-* ...
-*
-* @param boolean visible
-* @return undefined
-*/
+ * ...
+ *
+ * @param boolean visible
+ * @return undefined
+ */
 Element.prototype.setVisible = function(visible) {
 	if (visible === true) {
 		this.css('left', '');
@@ -478,6 +486,16 @@ Element.prototype.removeFromParent = function() {
 };
 
 /**
+ * ...
+ *
+ * @param string selector
+ * @return DOMElement || null
+ */
+Element.prototype.find = function(selector) {
+	return this.getElement().querySelector(selector);
+};
+
+/**
 * Factory methods.
 */
 Element.create = function(nodeName) {
@@ -546,10 +564,8 @@ Button.createWithElement = function(elem) {
 fragment.Button = Button;
 
 /**
- * Constructor method.
  * The lowerst appendable element in the application.
- * Appends to the body tag.
- *
+ * Is appended to the body tag.
  */
 function Root() {
     Element.apply(this);
@@ -562,6 +578,7 @@ Root.prototype = Object.create(Element.prototype);
  * or uses the existing one.
  *
  * @return undefined
+ * @private
  */
 Root.prototype._initElement = function() {
     if (document.getElementById('root') === null) {
@@ -589,15 +606,6 @@ DisplayState.prototype = Object.create(Element.prototype);
 * @return undefined
 */
 DisplayState.prototype.init = function() {};
-
-/**
-* Initializes the state.
-*
-* @return undefined
-*/
-DisplayState.prototype.dispose = function() {
-	Element.prototype.dispose.call(this);
-};
 
 fragment.DisplayState = DisplayState;
 

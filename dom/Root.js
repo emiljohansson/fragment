@@ -13,6 +13,7 @@ Root.prototype = Object.create(Element.prototype);
  * or uses the existing one.
  *
  * @return undefined
+ * @private
  */
 Root.prototype._initElement = function() {
     if (document.getElementById('root') === null) {
