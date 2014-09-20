@@ -17,10 +17,9 @@ var fragment = {};
  * @param mixed obj
  * @return boolean
  */
-function isSet(obj) {
+fragment.isSet = function(obj) {
     return (typeof obj !== 'undefined' && obj !== null);
-}
-fragment.isSet = isSet;
+};
 
 /**
  * Returns if the type of the object is a string.
@@ -28,10 +27,9 @@ fragment.isSet = isSet;
  * @param mixed obj
  * @return boolean
  */
-function isString(obj) {
-	return typeof obj === 'string';
-}
-fragment.isString = isString;
+fragment.isString = function(obj) {
+    return typeof obj === 'string';
+};
 
 /**
  *	https://github.com/emiljohansson/captn
@@ -52,16 +50,6 @@ fragment.isString = isString;
 var Event = {};
 
 //-----------------------------------------------------------
-//	Public static constant properties
-//-----------------------------------------------------------
-
-Event.EventType = {};
-Event.EventType.LOAD = 'load';
-Event.EventType.SUBMIT = 'submit';
-Event.EventType.CLICK = 'click';
-Event.EventType.CHANGE = 'change';
-
-//-----------------------------------------------------------
 //	Private methods
 //-----------------------------------------------------------
 
@@ -77,7 +65,7 @@ Event.EventType.CHANGE = 'change';
 function addListenerToArray(elemList, type, listener, useCapture) {
 	var i = elemList.length;
 	while (i--) {
-		Event.addListener(elemList[i], type, listener, useCapture);
+		Event.addEventListener(elemList[i], type, listener, useCapture);
 	}
 }
 
@@ -96,7 +84,7 @@ function addListenerToArray(elemList, type, listener, useCapture) {
  */
 Event.addEventListener = function(elem, type, listener, useCapture) {
 	useCapture = useCapture || false;
-	if (Object.prototype.toString.call( elem ) === '[object Array]') {
+	if (Array.isArray(elem) === true) {
 		addListenerToArray(elem, type, listener, useCapture);
 		return;
 	}
@@ -145,22 +133,18 @@ Event.removeEventListener = function(elem, type, listener, useCapture) {
  *	@return	{HTMLElement}
  */
 Event.triggerEvent = function(elem, type) {
-	if (!elem) {
+	if (!elem || !type) {
 		return;
 	}
 	var event;
 	if (document.createEvent) {
 		event = document.createEvent("HTMLEvents");
 		event.initEvent(type, true, true);
+		elem.dispatchEvent(event);
 	}
 	else {
 		event = document.createEventObject();
 		event.eventType = type;
-	}
-	if (document.createEvent) {
-		elem.dispatchEvent(event);
-	}
-	else {
 		elem.fireEvent("on" + event.eventType, event);
 	}
 	return elem;
@@ -192,6 +176,12 @@ function EventDispatcher() {
 * @return undefined
 */
 EventDispatcher.prototype.dispose = function() {
+	for (var type in this._listeners) {
+		var i = this._listeners[type].length;
+		while (i--) {
+			this.removeEventListener(type, this._listeners[type][i].listener);
+		}
+	}
 	this._listeners = {};
 };
 
@@ -266,7 +256,7 @@ fragment.EventDispatcher = EventDispatcher;
  * @param string nodeName
  */
 function Element(nodeName) {
-	EventDispatcher.apply(this);
+	EventDispatcher.call(this);
 
 	/**
 	 * Element object.
@@ -302,7 +292,13 @@ Element.prototype._mouseEvents = ['click'];
  * @private
  */
 Element.prototype._inEventList = function(type) {
-	return this._mouseEvents.indexOf(type) >= 0;
+	var i = this._mouseEvents.length;
+	while (i--) {
+		if (type === this._mouseEvents[i]) {
+			return true;
+		}
+	}
+	return false;
 };
 
 /**
@@ -312,29 +308,27 @@ Element.prototype._inEventList = function(type) {
 */
 Element.prototype.dispose = function() {
 	EventDispatcher.prototype.dispose.call(this);
-	this._element = null;
+	//this._element = null;
 };
 
 /**
  * @ineheritDoc
  */
 Element.prototype.addEventListener = function(type, listener, useCapture) {
-	if (this._inEventList(type) === false) {
-		return EventDispatcher.prototype.addEventListener.call(type, listener, useCapture);
+	if (this._inEventList(type) === true) {
+		Event.addEventListener(this._element, type, listener, useCapture);
 	}
-	Event.addEventListener(this._element, type, listener, useCapture);
-	return this;
+	return EventDispatcher.prototype.addEventListener.call(this, type, listener, useCapture);
 };
 
 /**
  * @ineheritDoc
  */
 Element.prototype.removeEventListener = function(type, listener, useCapture) {
-	if (this._inEventList(type) === false) {
-		return EventDispatcher.prototype.removeEventListener.call(type, listener, useCapture);
+	if (this._inEventList(type) === true) {
+		Event.removeEventListener(this._element, type, listener);
 	}
-	Event.removeEventListener(this._element, type, listener);
-	return this;
+	return EventDispatcher.prototype.removeEventListener.call(this, type, listener, useCapture);
 };
 
 /**
@@ -345,11 +339,11 @@ Element.prototype.removeEventListener = function(type, listener, useCapture) {
 * @return EventDispatcher
 */
 Element.prototype.dispatchListener = function(type, args) {
-	if (this._inEventList(type) === false) {
-		return EventDispatcher.prototype.dispatchListener(type, args);
+	if (this._inEventList(type) === true) {
+		Event.triggerEvent(this._element, type);
+		return this;
 	}
-	Event.triggerEvent(this._element, type);
-	return this;
+	return EventDispatcher.prototype.dispatchListener.call(this, type, args);
 };
 
 /**
@@ -380,10 +374,12 @@ Element.prototype.setElement = function(elem) {
  */
 Element.prototype.setVisible = function(visible) {
 	if (visible === true) {
+		this.css('top', '');
 		this.css('left', '');
 		this.css('position', '');
 		return;
 	}
+	this.css('top', '-9999px');
 	this.css('left', '-9999px');
 	this.css('position', 'absolute');
 };
@@ -396,7 +392,7 @@ Element.prototype.setVisible = function(visible) {
  */
 Element.prototype.html = function(htmlOrString) {
 	if (fragment.isString(htmlOrString) === true || typeof htmlOrString === 'number') {
-		if (isSet(this._element) === false) {
+		if (fragment.isSet(this._element) === false) {
 			return;
 		}
 		this._element.innerHTML = htmlOrString;
@@ -476,7 +472,7 @@ Element.prototype.appendTo = function(element) {
  * @return undefined
  */
 Element.prototype.removeFromParent = function() {
-	if (isSet(this.parent) === false) {
+	if (fragment.isSet(this.parent) === false) {
 		return;
 	}
 	this.parent.remove(this._element);
@@ -503,6 +499,9 @@ Element.create = function(nodeName) {
 };
 
 Element.createWithElement = function(elem) {
+	if (fragment.isSet(elem) === false) {
+		throw 'elem is not set';
+	}
 	var element = new Element();
 	element.setElement(elem);
 	return element;
