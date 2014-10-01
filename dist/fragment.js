@@ -308,7 +308,6 @@ Element.prototype._inEventList = function(type) {
 */
 Element.prototype.dispose = function() {
 	EventDispatcher.prototype.dispose.call(this);
-	//this._element = null;
 };
 
 /**
