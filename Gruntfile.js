@@ -36,7 +36,7 @@ module.exports = function (grunt) {
                 src: [
                     '<%= pkg.name %>.prefix', '<%= pkg.name %>.js',
                     'event/*js',
-                    'dom/EventDispatcher.js', 'dom/Element.js', 'dom/Container.js', 'dom/Button.js', 'dom/Root.js',
+                    'dom/EventDispatcher.js', 'dom/Element.js', 'dom/Container.js', 'dom/Button.js', 'dom/Root.js', 'dom/Anchor.js',
                     'state/*.js',
                     'util/*.js',
                     'plugin/**/*.js',
